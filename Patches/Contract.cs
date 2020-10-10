@@ -19,7 +19,7 @@ namespace DropCostsEnhanced.Patches
                 {
                     List<Weapon> weapons = actor.Weapons;
                     List<AmmunitionBox> ammunitionBoxes = actor.ammoBoxes;
-
+                    DCECore.modLog.Info?.Write($"Calculating Ammo/Heat Sink Maintenance Costs for unit: {actor.UnitName}");
                     foreach (Weapon weapon in weapons)
                     {
                         if (weapon.weaponDef.StartingAmmoCapacity > 0)
