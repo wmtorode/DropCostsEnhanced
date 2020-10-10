@@ -9,7 +9,7 @@ using IRBTModUtils.Logging;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace DropCostsEnchanced
+namespace DropCostsEnhanced
 {
     public class DCECore
     {
@@ -21,8 +21,7 @@ namespace DropCostsEnchanced
         {
             
             modDir = modDirectory;
-
-            modLog = new DeferringLogger(modDirectory, "drop_cost_enhanced", "DCE", false, false);
+            modLog = new DeferringLogger(modDirectory, "DropCostEnhanced", "DCE", true, false);
 
             try
             {
