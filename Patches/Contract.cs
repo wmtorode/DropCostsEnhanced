@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BattleTech;
 using Harmony;
 using DropCostsEnhanced;
+using UnityEngine;
 
 namespace DropCostsEnhanced.Patches
 {
@@ -11,29 +12,49 @@ namespace DropCostsEnhanced.Patches
         
         static void Postfix(Contract __instance)
         {
-            CombatGameState combat = __instance.BattleTechGame.Combat; 
-            List<AbstractActor> actors = combat.AllActors;
-            foreach (AbstractActor actor in actors)
+            try
             {
-                if (actor.team != null && actor.team.IsLocalPlayer)
+                CombatGameState combat = __instance.BattleTechGame.Combat; 
+                List<AbstractActor> actors = combat.AllActors;
+                foreach (AbstractActor actor in actors)
                 {
-                    List<Weapon> weapons = actor.Weapons;
-                    List<AmmunitionBox> ammunitionBoxes = actor.ammoBoxes;
-                    DCECore.modLog.Info?.Write($"Calculating Ammo/Heat Sink Maintenance Costs for unit: {actor.UnitName}");
-                    foreach (Weapon weapon in weapons)
+                    if (actor.team != null && actor.team.IsLocalPlayer)
                     {
-                        if (weapon.weaponDef.StartingAmmoCapacity > 0)
+                        List<Weapon> weapons = actor.Weapons;
+                        List<AmmunitionBox> ammunitionBoxes = actor.ammoBoxes;
+                        DCECore.modLog.Info?.Write($"Calculating Ammo/Heat Sink Maintenance Costs for unit: {actor.UnitName}");
+                        foreach (Weapon weapon in weapons)
                         {
-                            DCECore.modLog.Debug?.Write($"Weapon: {weapon.UIName}, internal ammo: {weapon.InternalAmmo}/{weapon.weaponDef.StartingAmmoCapacity}");
+                            if (weapon.weaponDef.StartingAmmoCapacity > 0)
+                            {
+                                DCECore.modLog.Debug?.Write($"Weapon: {weapon.UIName}, internal ammo: {weapon.InternalAmmo}/{weapon.weaponDef.StartingAmmoCapacity}");
+                            }
                         }
-                    }
 
-                    foreach (AmmunitionBox ammunitionBox in ammunitionBoxes)
-                    {
-                        DCECore.modLog.Debug?.Write($"AmmoBox: {ammunitionBox.UIName}, remaining ammo: {ammunitionBox.CurrentAmmo}/{ammunitionBox.AmmoCapacity}");
+                        foreach (AmmunitionBox ammunitionBox in ammunitionBoxes)
+                        {
+                            DCECore.modLog.Debug?.Write($"AmmoBox: {ammunitionBox.UIName}, remaining ammo: {ammunitionBox.CurrentAmmo}/{ammunitionBox.AmmoCapacity}");
+                        }
+                        
                     }
-                    
                 }
+
+                int TotalCost = 0;
+                if (DCECore.settings.enableDropCosts)
+                {
+                    TotalCost += DropCostManager.Instance.Cost;
+                }
+                DCECore.modLog.Info?.Write($"Total Drop Cost: {TotalCost}");
+
+                int newResult = Mathf.FloorToInt(__instance.MoneyResults - TotalCost);
+                Traverse.Create(__instance).Property("MoneyResults").SetValue(newResult);
+                
+
+
+            }
+            catch (Exception e)
+            {
+                DCECore.modLog.Error?.Write(e);
             }
         }
     }

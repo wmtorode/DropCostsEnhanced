@@ -10,5 +10,6 @@ namespace DropCostsEnhanced.Data
         public bool enableDropCosts = true;
         public float costFactor = 0.002f;
         public bool useCostByTons = false;
+        public float roundToNearist = 10000f;
     }
 }

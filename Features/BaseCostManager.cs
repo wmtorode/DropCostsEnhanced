@@ -2,7 +2,7 @@
 using BattleTech;
 using BattleTech.Framework;
 
-namespace DropCostsEnhanced.Features
+namespace DropCostsEnhanced
 {
     public class BaseCostManager
     {

@@ -1,4 +1,5 @@
-﻿/.idea/.idea.DropCostsEnchanced/
-/.vs/DropCostsEnchanced/v16/
-/bin/Release/
+﻿/.idea/
+/.vs/
+/bin/
 /obj/
+/DropCostsEnhanced.sln.DotSettings.user

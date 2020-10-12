@@ -22,7 +22,7 @@ namespace DropCostsEnhanced
         {
             
             modDir = modDirectory;
-            modLog = new DeferringLogger(modDirectory, "DropCostEnhanced", "DCE", true, false);
+            
 
             try
             {
@@ -36,7 +36,18 @@ namespace DropCostsEnhanced
 
             catch (Exception ex)
             {
-                modLog.Error?.Write(ex);
+                // modLog.Error?.Write(ex);
+            }
+            
+            modLog = new DeferringLogger(modDirectory, "DropCostEnhanced", "DCE", settings.debug, settings.trace);
+
+            try
+            {
+                DropCostManager.Instance.Initialize();
+            }
+            catch (Exception e)
+            {
+                modLog.Error?.Write(e);
             }
 
             var harmony = HarmonyInstance.Create("ca.jwolf.DropCostsEnhanced");
