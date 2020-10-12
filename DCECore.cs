@@ -8,13 +8,14 @@ using System.Reflection;
 using IRBTModUtils.Logging;
 using System.IO;
 using Newtonsoft.Json;
+using DropCostsEnhanced.Data;
 
 namespace DropCostsEnhanced
 {
     public class DCECore
     {
         internal static DeferringLogger modLog;
-        //internal static Settings settings;
+        internal static Settings settings;
         internal static string modDir;
 
         public static void Init(string modDirectory, string settingsJSON)
@@ -28,7 +29,7 @@ namespace DropCostsEnhanced
                 using (StreamReader reader = new StreamReader($"{modDir}/settings.json"))
                 {
                     string jdata = reader.ReadToEnd();
-                    //settings = JsonConvert.DeserializeObject<Settings>(jdata);
+                    settings = JsonConvert.DeserializeObject<Settings>(jdata);
                 }
 
             }

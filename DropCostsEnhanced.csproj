@@ -56,7 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Settings.cs" />
     <Compile Include="DCECore.cs" />
+    <Compile Include="Features\BaseCostManager.cs" />
+    <Compile Include="Features\DropCostManager.cs" />
     <Compile Include="Patches\Contract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
