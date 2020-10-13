@@ -68,9 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AmmoCost.cs" />
     <Compile Include="Data\DropCostFactor.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="DCECore.cs" />
+    <Compile Include="Features\AmmoCostManager.cs" />
     <Compile Include="Features\BaseCostManager.cs" />
     <Compile Include="Features\DropCostManager.cs" />
     <Compile Include="Patches\AAR_ContractObjectivesWidget.cs" />
@@ -78,8 +80,6 @@
     <Compile Include="Patches\LanceHeaderWidget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Patches\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

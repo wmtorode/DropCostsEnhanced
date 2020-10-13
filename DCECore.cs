@@ -44,6 +44,7 @@ namespace DropCostsEnhanced
             try
             {
                 DropCostManager.Instance.Initialize();
+                AmmoCostManager.Instance.Initialize();
             }
             catch (Exception e)
             {

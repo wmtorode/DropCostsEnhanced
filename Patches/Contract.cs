@@ -16,33 +16,17 @@ namespace DropCostsEnhanced.Patches
             {
                 CombatGameState combat = __instance.BattleTechGame.Combat; 
                 List<AbstractActor> actors = combat.AllActors;
-                foreach (AbstractActor actor in actors)
-                {
-                    if (actor.team != null && actor.team.IsLocalPlayer)
-                    {
-                        List<Weapon> weapons = actor.Weapons;
-                        List<AmmunitionBox> ammunitionBoxes = actor.ammoBoxes;
-                        DCECore.modLog.Info?.Write($"Calculating Ammo/Heat Sink Maintenance Costs for unit: {actor.UnitName}");
-                        foreach (Weapon weapon in weapons)
-                        {
-                            if (weapon.weaponDef.StartingAmmoCapacity > 0)
-                            {
-                                DCECore.modLog.Debug?.Write($"Weapon: {weapon.UIName}, internal ammo: {weapon.InternalAmmo}/{weapon.weaponDef.StartingAmmoCapacity}");
-                            }
-                        }
-
-                        foreach (AmmunitionBox ammunitionBox in ammunitionBoxes)
-                        {
-                            DCECore.modLog.Debug?.Write($"AmmoBox: {ammunitionBox.UIName}, remaining ammo: {ammunitionBox.CurrentAmmo}/{ammunitionBox.AmmoCapacity}");
-                        }
-                        
-                    }
-                }
+                
 
                 int TotalCost = 0;
                 if (DCECore.settings.enableDropCosts)
                 {
                     TotalCost += DropCostManager.Instance.Cost;
+                }
+
+                if (DCECore.settings.enableAmmoCosts)
+                {
+                    TotalCost += AmmoCostManager.Instance.CalculateFinalCosts(actors);
                 }
                 DCECore.modLog.Info?.Write($"Total Drop Cost: {TotalCost}");
 

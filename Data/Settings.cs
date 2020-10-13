@@ -8,6 +8,7 @@ namespace DropCostsEnhanced.Data
         public bool debug = false;
         public bool trace = false;
         public bool enableDropCosts = true;
+        public bool enableAmmoCosts = true;
         public float costFactor = 0.002f;
         public bool useCostByTons = false;
         public float roundToNearist = 10000f;

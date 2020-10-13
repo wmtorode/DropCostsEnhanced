@@ -16,6 +16,10 @@ namespace DropCostsEnhanced.Patches
                 {
                     addObjective.GetValue(new object[] {DropCostManager.Instance.GetObjectiveResult()});
                 }
+                if (DCECore.settings.enableAmmoCosts)
+                {
+                    addObjective.GetValue(new object[] {AmmoCostManager.Instance.GetObjectiveResult()});
+                }
             }
             catch (Exception e) {
                 DCECore.modLog.Error?.Write(e);
