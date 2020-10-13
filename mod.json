@@ -1,6 +1,6 @@
 {
 	"Name": "DropCostsEnhanced",
-	"Version": "0.0.1",
+	"Version": "1.0.0",
 	"Enabled": true,
 	"Hidden": true,
 	"Author": "Jamie Wolf",
@@ -10,6 +10,6 @@
 		"CustomComponents",
 		"IRBTModUtils" 
 	],
-	"ConflictsWith": []
+	"ConflictsWith": ["DropCostPerMech"]
 
 }
