@@ -9,6 +9,7 @@ using IRBTModUtils.Logging;
 using System.IO;
 using Newtonsoft.Json;
 using DropCostsEnhanced.Data;
+using CustomComponents;
 
 namespace DropCostsEnhanced
 {
@@ -43,6 +44,7 @@ namespace DropCostsEnhanced
 
             try
             {
+                CustomComponents.Registry.RegisterSimpleCustomComponents(Assembly.GetExecutingAssembly());
                 DropCostManager.Instance.Initialize();
                 AmmoCostManager.Instance.Initialize();
             }
