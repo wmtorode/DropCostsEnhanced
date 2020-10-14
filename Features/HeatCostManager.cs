@@ -31,15 +31,15 @@ namespace DropCostsEnhanced
 
         }
 
-        private int getTotalHeatSunk(AbstractActor actor)
+        private float getTotalHeatSunk(AbstractActor actor)
         {
             if (actor.StatCollection.ContainsStatistic(DCECore.settings.heatSunkStat))
             {
-                return actor.StatCollection.GetValue<int>(DCECore.settings.heatSunkStat);
+                return actor.StatCollection.GetValue<float>(DCECore.settings.heatSunkStat);
             }
             
             DCECore.modLog.Warn?.Write($"Failed to find heat stat for unit {actor.UnitName}");
-            return 0;
+            return 0f;
         }
         
         
@@ -55,7 +55,7 @@ namespace DropCostsEnhanced
             Cost = 0;
             foreach (AbstractActor actor in actors)
             {
-                int HeatSunk = 0;
+                float HeatSunk = 0;
                 float HeatCost = 0;
                 int actorHeatCost = 0;
                 float componentHeatCost = 0f;
