@@ -92,15 +92,32 @@ if this custom block was added the the sniper example above than the cost per sh
 When enabled, Heat costs for a mech are a measure of upkeep and coolant needed to keep a mech's heat dissipation
 running at peak conditions. any component (weapons, heatsink, equipment) may carry an upkeep cost by adding a 
 `HeatSinkingCost` section to the `Custom`of a component def. at the end of battle all such components will have the upkeep costs
-summed, then multiplied by the amount of heat the unit sunk in battle, the result is its upkeep fee.
+summed in `HeatUpkeepCost`, then multiplied by the amount of heat the unit sunk in battle,
+finally, all  `HeatUpkeepMult` will multiply on this base cost the result is its upkeep fee.
 
-example:
+example custom:
 ```json
 {
   "Custom": {
     "HeatSinkingCost" : {
-      "HeatUpkeepCost" : 25
+      "HeatUpkeepCost" : 25,
+      "HeatUpkeepMult" : 1.1
     }
   }
 }
 ```
+
+### Example Heat
+We have a black Knight, with DHS kit. this kit has an upkeep cost of 25 cbills. it also has a coolant unit with an upkeep cost of 5 cbills and has 2 heat exchanger
+will an upkeep Multiplier of 1.2 each.
+
+In battle this unit sinks 500 heat.
+
+```
+heat Cost = (((25 + 5) * 500) * 1.2) * 1.2
+heat Cost = ((30 * 500) * 1.2) * 1.2
+heat Cost = (15000 * 1.2) * 1.2
+heat Cost = 18000 * 1.2
+heat Cost = 21600
+```
+          

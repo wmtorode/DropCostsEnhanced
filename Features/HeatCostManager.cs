@@ -30,6 +30,17 @@ namespace DropCostsEnhanced
             return 0f;
 
         }
+        
+        private float getHeatMult(MechComponent mechComponent)
+        {
+            if (mechComponent.componentDef.Is<HeatSinkingCost>(out var costFactor))
+            {
+                return costFactor.HeatUpkeepMult;
+            }
+
+            return 1f;
+
+        }
 
         private float getTotalHeatSunk(AbstractActor actor)
         {
@@ -59,6 +70,7 @@ namespace DropCostsEnhanced
                 float HeatCost = 0;
                 int actorHeatCost = 0;
                 float componentHeatCost = 0f;
+                List<float> multipliers = new List<float>();
                 
                 if (actor.team != null && actor.team.IsLocalPlayer)
                 {
@@ -73,10 +85,23 @@ namespace DropCostsEnhanced
                         {
                             DCECore.modLog.Info?.Write($"Component: {component.UIName} has heat upkeep of {componentHeatCost}");
                         }
+
+                        float multi = getHeatMult(component);
+                        if (multi != 1f)
+                        {
+                            multipliers.Add(multi);
+                            DCECore.modLog.Info?.Write($"Component: {component.UIName} has heat upkeep multiplier of {multi}");
+                        }
                     }
 
                     HeatSunk = getTotalHeatSunk(actor);
-                    actorHeatCost = Mathf.FloorToInt(HeatCost * HeatSunk);
+                    
+                    float baseHeat = HeatCost * HeatSunk;
+                    foreach (float multi in multipliers)
+                    {
+                        baseHeat *= multi;
+                    }
+                    actorHeatCost = Mathf.FloorToInt(baseHeat);
                     Cost += actorHeatCost;
                     DCECore.modLog.Info?.Write($"Unit Sunk {HeatSunk} Heat, at an upkeep value of {HeatCost}, for a total of: {actorHeatCost}");
 
