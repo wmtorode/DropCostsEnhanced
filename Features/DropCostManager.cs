@@ -76,12 +76,10 @@ namespace DropCostsEnhanced
                 }
                 if (DCECore.settings.useCostByTons)
                 {
-                    Cost += (int)((mech.Chassis.Tonnage * DCECore.settings.costFactor) * modifier);
+                    Cost += (int)((mech.Chassis.Tonnage * DCECore.settings.dropCostPerTon) * modifier);
                 }
-                else
-                {
-                    Cost += (int)((CalculateMechValue(mech) * DCECore.settings.costFactor) * modifier);
-                }
+
+                Cost += (int)((CalculateMechValue(mech) * DCECore.settings.costFactor) * modifier);
 
                 LanceTonnage += (int) mech.Chassis.Tonnage;
             }
