@@ -20,18 +20,22 @@ This was inspired by the original drop cost mod: `DropCostPerMech`
 {
   "enableDropCosts" : true,
   "enableAmmoCosts" : true,
+  "enableHeatCosts" : false,
   "costFactor" : 0.002,
   "useCostByTons" : false,
   "dropCostPerTon" : 500,
   "roundToNearist" : 10000,
   "debug" : false,
-  "trace" : false
+  "trace" : false,
+  "heatSunkStat" : "CACOverrallHeatSinked"
 }
 ```
 
 `enableDropCosts` : enable drop costs based on mech value (and optionally mech tonnage)
 
 `enableAmmoCosts` : enable costs based on ammo a mech has expended over the course of a battle
+
+`enableHeatCosts` : enable costs based on how much heat a mech has sunk over the course of a battle
 
 `costFactor` : a float, a multiplier for the drop cost of a mech. 1.0 would be a 100% of the mechs value. the default is 0.2%
 
@@ -44,6 +48,8 @@ This was inspired by the original drop cost mod: `DropCostPerMech`
 `debug` : used to enable debug logging
 
 `trace` : used to enable trace logging
+
+`heatSunkStat` : the name of the stat used by CAC to track heat sunk
 
 
 ## Drop Costs
@@ -80,3 +86,21 @@ example:
 ```
 
 if this custom block was added the the sniper example above than the cost per shot of the sniper would drop from 8000 cbills to 325
+
+## Heat Costs
+
+When enabled, Heat costs for a mech are a measure of upkeep and coolant needed to keep a mech's heat dissipation
+running at peak conditions. any component (weapons, heatsink, equipment) may carry an upkeep cost by adding a 
+`HeatSinkingCost` section to the `Custom`of a component def. at the end of battle all such components will have the upkeep costs
+summed, then multiplied by the amount of heat the unit sunk in battle, the result is its upkeep fee.
+
+example:
+```json
+{
+  "Custom": {
+    "HeatSinkingCost" : {
+      "HeatUpkeepCost" : 25
+    }
+  }
+}
+```

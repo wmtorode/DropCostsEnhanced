@@ -55,7 +55,7 @@ namespace DropCostsEnhanced
         {
             Cost = 0;
             uuid = "7facf07a-626d-4a3b-a1ec-b29a35ff1ac0";
-            ObjectiveText = "DROP COSTS DEDUCED";
+            ObjectiveText = "DROP COSTS DEDUCTED";
         }
 
         new public int CalculateFinalCosts(List<AbstractActor> actors)

@@ -47,6 +47,7 @@ namespace DropCostsEnhanced
                 CustomComponents.Registry.RegisterSimpleCustomComponents(Assembly.GetExecutingAssembly());
                 DropCostManager.Instance.Initialize();
                 AmmoCostManager.Instance.Initialize();
+                HeatCostManager.Instance.Initialize();
             }
             catch (Exception e)
             {

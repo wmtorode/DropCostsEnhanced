@@ -9,9 +9,11 @@ namespace DropCostsEnhanced.Data
         public bool trace = false;
         public bool enableDropCosts = true;
         public bool enableAmmoCosts = true;
+        public bool enableHeatCosts = false;
         public float costFactor = 0.002f;
         public bool useCostByTons = false;
         public float dropCostPerTon = 500f;
         public float roundToNearist = 10000f;
+        public string heatSunkStat = "CACOverrallHeatSinked";
     }
 }

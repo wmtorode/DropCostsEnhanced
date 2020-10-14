@@ -28,6 +28,10 @@ namespace DropCostsEnhanced.Patches
                 {
                     TotalCost += AmmoCostManager.Instance.CalculateFinalCosts(actors);
                 }
+                if (DCECore.settings.enableHeatCosts)
+                {
+                    TotalCost += HeatCostManager.Instance.CalculateFinalCosts(actors);
+                }
                 DCECore.modLog.Info?.Write($"Total Drop Cost: {TotalCost}");
 
                 int newResult = Mathf.FloorToInt(__instance.MoneyResults - TotalCost);

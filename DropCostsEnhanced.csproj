@@ -70,11 +70,13 @@
   <ItemGroup>
     <Compile Include="Data\AmmoCost.cs" />
     <Compile Include="Data\DropCostFactor.cs" />
+    <Compile Include="Data\HeatSinkingCost.cs" />
     <Compile Include="Data\Settings.cs" />
     <Compile Include="DCECore.cs" />
     <Compile Include="Features\AmmoCostManager.cs" />
     <Compile Include="Features\BaseCostManager.cs" />
     <Compile Include="Features\DropCostManager.cs" />
+    <Compile Include="Features\HeatCostManager.cs" />
     <Compile Include="Patches\AAR_ContractObjectivesWidget.cs" />
     <Compile Include="Patches\Contract.cs" />
     <Compile Include="Patches\LanceHeaderWidget.cs" />

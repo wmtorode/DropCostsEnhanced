@@ -20,6 +20,10 @@ namespace DropCostsEnhanced.Patches
                 {
                     addObjective.GetValue(new object[] {AmmoCostManager.Instance.GetObjectiveResult()});
                 }
+                if (DCECore.settings.enableHeatCosts)
+                {
+                    addObjective.GetValue(new object[] {HeatCostManager.Instance.GetObjectiveResult()});
+                }
             }
             catch (Exception e) {
                 DCECore.modLog.Error?.Write(e);
