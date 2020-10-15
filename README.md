@@ -60,6 +60,23 @@ by `costFactor` to determine the drop price of the mech.
 
 if `useCostByTons` is `true` then the mechs tonnage * `dropCostPerTon` is added to this cost.
 
+### Adjusting Drop Costs
+
+Drop costs can be adjusted on a per chassis basis by adding a `DropCostFactor` to the custom block of a chassisdef.
+this is a multiplier for the overall cost of the mech, values above 1.0 will make the mech more expensive, values below will make it cheaper.
+
+example json:
+```json
+{
+  "Custom": {
+    "DropCostFactor" : {
+      "DropModifier" : 0.8
+    }
+  }
+}
+```
+
+
 ## Ammo Costs
 
 When enable, Ammo costs for a mech is calculated for by taking the amount of munitions consumed from all 
