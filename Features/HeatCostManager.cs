@@ -46,7 +46,7 @@ namespace DropCostsEnhanced
         {
             if (actor.StatCollection.ContainsStatistic(DCECore.settings.heatSunkStat))
             {
-                return actor.StatCollection.GetValue<float>(DCECore.settings.heatSunkStat);
+                return Math.Abs(actor.StatCollection.GetValue<float>(DCECore.settings.heatSunkStat));
             }
             
             DCECore.modLog.Warn?.Write($"Failed to find heat stat for unit {actor.UnitName}");
