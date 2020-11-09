@@ -1,7 +1,7 @@
 # DropCostsEnhanced
 A Mod for HBS's BattleTech PC Game that adds costs for dropping mechs and ammo consumption.
 
-This was inspired by the original drop cost mod: `DropCostPerMech`
+This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDifficultyByCompany`
 
 ## Dependancies
 

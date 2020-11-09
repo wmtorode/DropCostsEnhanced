@@ -31,6 +31,7 @@ namespace DropCostsEnhanced
                 {
                     string jdata = reader.ReadToEnd();
                     settings = JsonConvert.DeserializeObject<Settings>(jdata);
+                    settings.initHolders();
                 }
 
             }
