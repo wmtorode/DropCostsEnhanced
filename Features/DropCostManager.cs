@@ -17,6 +17,12 @@ namespace DropCostsEnhanced
             private set;
         }
         
+        public int RawCost
+        {
+            get;
+            private set;
+        }
+        
         public static DropCostManager Instance
         {
             get
@@ -24,6 +30,11 @@ namespace DropCostsEnhanced
                 if (_instance == null) _instance = new DropCostManager();
                 return _instance;
             }
+        }
+
+        public int CalculateMechCost(MechDef mech)
+        {
+            return Mathf.FloorToInt(CalculateMechValue(mech));
         }
 
         private float CalculateMechValue(MechDef mech)
@@ -67,6 +78,7 @@ namespace DropCostsEnhanced
         {
             Cost = 0;
             LanceTonnage = 0;
+            RawCost = 0;
             int dropTonnageCost = 0;
             foreach (MechDef mech in mechDefs)
             {
@@ -84,7 +96,9 @@ namespace DropCostsEnhanced
                     Cost += dropTonnageCost;
                 }
 
-                int valueCost = (int) ((CalculateMechValue(mech) * DCECore.settings.costFactor) * modifier);
+                float mechCost = CalculateMechValue(mech);
+                RawCost += Mathf.FloorToInt(mechCost);
+                int valueCost = (int) ((mechCost * DCECore.settings.costFactor) * modifier);
                 DCECore.modLog.Info?.Write($"value based cost: {valueCost}");
                 DCECore.modLog.Info?.Write($"Total Drop cost: {valueCost + dropTonnageCost}");
                 Cost += valueCost;

@@ -84,6 +84,7 @@
     <Compile Include="Patches\LanceHeaderWidget.cs" />
     <Compile Include="Patches\SGDifficultyIndicatorWidget.cs" />
     <Compile Include="Patches\SimGameState.cs" />
+    <Compile Include="Patches\Starmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

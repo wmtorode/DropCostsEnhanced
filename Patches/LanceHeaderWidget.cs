@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleTech;
 using Harmony;
 using DropCostsEnhanced;
 using UnityEngine;
 using BattleTech.UI;
 using BattleTech.UI.TMProWrapper;
+using DropCostsEnhanced.Data;
 using TMPro;
 
 namespace DropCostsEnhanced.Patches
@@ -25,6 +27,17 @@ namespace DropCostsEnhanced.Patches
 
                     // longer strings interfere with messages about incorrect lance configurations
                     ___simLanceTonnageText.SetText($"DROP COST: ¢{DropCostManager.Instance.FormattedCosts}   LANCE WEIGHT: {DropCostManager.Instance.LanceTonnage} TONS");
+                    if (DCECore.settings.diffMode != EDifficultyType.NotActive)
+                    {
+                        SGDifficultyIndicatorWidget lanceRatingWidget = (SGDifficultyIndicatorWidget) AccessTools
+                            .Field(typeof(LanceHeaderWidget), "lanceRatingWidget").GetValue(__instance);
+                        TextMeshProUGUI label = lanceRatingWidget.transform.parent
+                            .GetComponentsInChildren<TextMeshProUGUI>()
+                            .FirstOrDefault(t => t.transform.name == "label-lanceRating");
+                        label.text = "Lance Rating";
+                        lanceRatingWidget.SetDifficulty(Mathf.Min(10,
+                            DropCostManager.Instance.RawCost / DCECore.settings.valuePerHalfSkull));
+                    }
                 }
             }
             catch (Exception e) {

@@ -18,6 +18,8 @@ namespace DropCostsEnhanced
         internal static DeferringLogger modLog;
         internal static Settings settings;
         internal static string modDir;
+        internal static DateTime cacheValidUntil = DateTime.UtcNow;
+        internal static float cachedDifficulty = 0f;
 
         public static void Init(string modDirectory, string settingsJSON)
         {

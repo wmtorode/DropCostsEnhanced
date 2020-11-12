@@ -18,10 +18,15 @@ namespace DropCostsEnhanced.Data
         public float dropCostPerTon = 500f;
         public float roundToNearist = 10000f;
         public string heatSunkStat = "CACOverrallHeatSinked";
+
         public List<FactionCapital> capitals = new List<FactionCapital>();
         
         [JsonConverter(typeof(StringEnumConverter))]
         public EDifficultyType diffMode = EDifficultyType.NotActive;
+
+        public int valuePerHalfSkull = 16500000;
+        public int defaultMechsToCount = 8;
+        public int maxDifficulty = 25;
         
         [JsonIgnore]
         private Dictionary<string, string> factionToCapital = new Dictionary<string, string>();
