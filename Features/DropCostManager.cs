@@ -65,6 +65,8 @@ namespace DropCostsEnhanced
         new public void Initialize()
         {
             Cost = 0;
+            RawCost = 0;
+            LanceTonnage = 0;
             uuid = "7facf07a-626d-4a3b-a1ec-b29a35ff1ac0";
             ObjectiveText = "DROP COSTS DEDUCTED";
         }

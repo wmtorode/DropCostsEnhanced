@@ -35,8 +35,9 @@ namespace DropCostsEnhanced.Patches
                             .GetComponentsInChildren<TextMeshProUGUI>()
                             .FirstOrDefault(t => t.transform.name == "label-lanceRating");
                         label.text = "Lance Rating";
-                        lanceRatingWidget.SetDifficulty(Mathf.Min(10,
-                            DropCostManager.Instance.RawCost / DCECore.settings.valuePerHalfSkull));
+                        int difficulty = DropCostManager.Instance.RawCost / DCECore.settings.valuePerHalfSkull;
+                        DCECore.modLog.Debug?.Write($"Calculated Drop Rating: {difficulty}, total value: {DropCostManager.Instance.RawCost}");
+                        lanceRatingWidget.SetDifficulty(Mathf.Min(10, difficulty));
                     }
                 }
             }

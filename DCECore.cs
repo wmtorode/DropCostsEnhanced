@@ -18,8 +18,8 @@ namespace DropCostsEnhanced
         internal static DeferringLogger modLog;
         internal static Settings settings;
         internal static string modDir;
-        internal static DateTime cacheValidUntil = DateTime.UtcNow;
-        internal static float cachedDifficulty = 0f;
+        internal static DateTime cacheValidUntil;
+        internal static float cachedDifficulty;
 
         public static void Init(string modDirectory, string settingsJSON)
         {
@@ -47,6 +47,8 @@ namespace DropCostsEnhanced
 
             try
             {
+                cachedDifficulty = 0f;
+                cacheValidUntil = DateTime.UtcNow;
                 CustomComponents.Registry.RegisterSimpleCustomComponents(Assembly.GetExecutingAssembly());
                 DropCostManager.Instance.Initialize();
                 AmmoCostManager.Instance.Initialize();

@@ -41,9 +41,10 @@ namespace DropCostsEnhanced.Patches
         static void Postfix(SimGameState __instance, ref float __result) {
             try {
                 if (DCECore.settings.diffMode == EDifficultyType.Company) {
-                    if (DateTime.UtcNow.Ticks > DCECore.cacheValidUntil.Ticks)
+                    if (DateTime.UtcNow.Ticks < DCECore.cacheValidUntil.Ticks)
                     {
                         __result = DCECore.cachedDifficulty;
+                        DCECore.modLog.Debug?.Write($"using cached diff: {DateTime.UtcNow.Ticks}, {DCECore.cacheValidUntil.Ticks}");
                     }
                     else
                     {
@@ -80,6 +81,7 @@ namespace DropCostsEnhanced.Patches
                 }
                 else {
                     __result = 0;
+                    DCECore.modLog.Debug?.Write($"using 0 diff: {DCECore.settings.diffMode}");
                 }
             }
             catch (Exception e) {
