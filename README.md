@@ -27,7 +27,11 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
   "roundToNearist" : 10000,
   "debug" : false,
   "trace" : false,
-  "heatSunkStat" : "CACOverrallHeatSinked"
+  "heatSunkStat" : "CACOverrallHeatSinked",
+  "diffMode" : "NotActive",
+  "valuePerHalfSkull" : 16500000,
+  "defaultMechsToCount" : 8,
+  "maxDifficulty" : 25
 }
 ```
 
@@ -51,6 +55,20 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 
 `heatSunkStat` : the name of the stat used by CAC to track heat sunk
 
+`diffMode` : Controls what mode contract/system difficulty operates on. Options:
+
+    - NotActive: The default mode, Global difficulty patches are not applied at all
+    - System: Difficulty is based on systemdef defined. This is functionaly the same as NotActive, but Global difficulty patches are applied
+    - Company: Difficulty is based on the value of your best fieldable units. Note: When this mode is active, the Difficulty Filter in the starmap will not work (biome filter still works)
+    - Reputation: Difficulty is based on your standing with factions. 
+
+*The below settings are only active when `diffMode` is set to something other than `NotActive`*
+
+`valuePerHalfSkull` : The value of mech value that decides the lance rating indicator & company difficulty rating when active
+
+`defaultMechsToCount` : The default number of mechs to count for company difficulty when `bigger drops` is not present
+
+`maxDifficulty` : The max contract difficulty that can be generated when not in system mode.
 
 ## Drop Costs
 

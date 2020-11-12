@@ -83,6 +83,7 @@
     <Compile Include="Patches\Contract.cs" />
     <Compile Include="Patches\LanceHeaderWidget.cs" />
     <Compile Include="Patches\SGDifficultyIndicatorWidget.cs" />
+    <Compile Include="Patches\SGNavigationScreen.cs" />
     <Compile Include="Patches\SimGameState.cs" />
     <Compile Include="Patches\Starmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
