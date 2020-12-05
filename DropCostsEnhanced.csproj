@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AmmoCost.cs" />
+    <Compile Include="Data\DifficultyScaler.cs" />
     <Compile Include="Data\DropCostFactor.cs" />
     <Compile Include="Data\EDifficultyType.cs" />
     <Compile Include="Data\FactionCapital.cs" />

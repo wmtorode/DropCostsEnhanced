@@ -31,7 +31,10 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
   "diffMode" : "NotActive",
   "valuePerHalfSkull" : 16500000,
   "defaultMechsToCount" : 8,
-  "maxDifficulty" : 25
+  "maxDifficulty" : 25,
+  "useDifficultyCostScaling" : false,
+  "defaultDifficultyCostModifier" : 1.0,
+  "difficultyCostModifiers" : []
 }
 ```
 
@@ -54,6 +57,12 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 `trace` : used to enable trace logging
 
 `heatSunkStat` : the name of the stat used by CAC to track heat sunk
+
+`useDifficultyCostScaling` : when enabled drop costs can be scaled based on drop difficulty (mech value based)
+
+`defaultDifficultyCostModifier` : when drop difficulty scaling is enabled this is the default modifier for the drop difficulty if one is not defined
+
+`difficultyCostModifiers` : a list of cost scaling modifier objects
 
 `diffMode` : Controls what mode contract/system difficulty operates on. Options:
 
@@ -93,6 +102,26 @@ example json:
   }
 }
 ```
+
+### Drop Cost Difficulty Scaling
+
+Drop costs can be scaled based on the lance's drop difficulty rating, each modifier specifies a range of difficulty values
+(inclusive) where that modifier will be applied.
+
+example json:
+```json
+{
+  "minDiff": 0,
+  "maxDiff" : 0,
+  "modifier" : 1.0
+}
+```
+
+`minDiff` : the bottom of the difficulty range where this modifier kicks in
+
+`maxDiff` : the top of the range where this modifier is active
+
+`modifier` : the modifier to apply, less than 1 is a discount, greater than 1 is extra cost
 
 
 ## Ammo Costs

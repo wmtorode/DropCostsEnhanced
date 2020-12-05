@@ -10,6 +10,8 @@ namespace DropCostsEnhanced
     public class DropCostManager: BaseCostManager
     {
         private static DropCostManager _instance;
+        
+        private Dictionary<int, float> costScaler = new Dictionary<int, float>();
 
         public int LanceTonnage
         {
@@ -69,6 +71,13 @@ namespace DropCostsEnhanced
             LanceTonnage = 0;
             uuid = "7facf07a-626d-4a3b-a1ec-b29a35ff1ac0";
             ObjectiveText = "DROP COSTS DEDUCTED";
+            foreach (DifficultyScaler scaler in DCECore.settings.difficultyCostModifiers)
+            {
+                for (int i = scaler.minDiff; i <= scaler.maxDiff; i++)
+                {
+                    costScaler[i] = scaler.modifier;
+                }
+            }
         }
 
         new public int CalculateFinalCosts(List<AbstractActor> actors)
@@ -106,6 +115,20 @@ namespace DropCostsEnhanced
                 Cost += valueCost;
 
                 LanceTonnage += (int) mech.Chassis.Tonnage;
+            }
+
+            if (DCECore.settings.useDifficultyCostScaling)
+            {
+                int dropDiff = RawCost / DCECore.settings.valuePerHalfSkull;
+                float diffModifier = DCECore.settings.defaultDifficultyCostModifier;
+                if (costScaler.ContainsKey(dropDiff))
+                {
+                    diffModifier = costScaler[dropDiff];
+                }
+
+                Cost = (int) (Cost * diffModifier);
+                DCECore.modLog.Info?.Write($"Drop Difficulty of: {dropDiff}, has modifier of: {diffModifier}, Changing Drop Cost to: {Cost}");
+
             }
             
 

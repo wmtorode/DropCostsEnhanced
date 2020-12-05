@@ -19,6 +19,10 @@ namespace DropCostsEnhanced.Data
         public float roundToNearist = 10000f;
         public string heatSunkStat = "CACOverrallHeatSinked";
 
+        public bool useDifficultyCostScaling = false;
+        public float defaultDifficultyCostModifier = 1.0f;
+        public List<DifficultyScaler> difficultyCostModifiers = new List<DifficultyScaler>();
+
         public List<FactionCapital> capitals = new List<FactionCapital>();
         
         [JsonConverter(typeof(StringEnumConverter))]
