@@ -3,6 +3,7 @@ using BattleTech;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using UnityEngine;
 
 namespace DropCostsEnhanced.Data
 {
@@ -18,12 +19,15 @@ namespace DropCostsEnhanced.Data
         public float dropCostPerTon = 500f;
         public float roundToNearist = 10000f;
         public string heatSunkStat = "CACOverrallHeatSinked";
+        public bool useDiffRungs = false;
 
         public bool useDifficultyCostScaling = false;
         public float defaultDifficultyCostModifier = 1.0f;
         public List<DifficultyScaler> difficultyCostModifiers = new List<DifficultyScaler>();
 
         public List<FactionCapital> capitals = new List<FactionCapital>();
+
+        public List<DifficultyWidgetLevel> diffWidgetRungs = new List<DifficultyWidgetLevel>();
         
         [JsonConverter(typeof(StringEnumConverter))]
         public EDifficultyType diffMode = EDifficultyType.NotActive;
@@ -73,6 +77,24 @@ namespace DropCostsEnhanced.Data
             {
                 return true;
             }
+            return false;
+        }
+
+        public bool getRungColor(int rung, out Color oColour)
+        {
+            oColour = Color.white;
+            if (useDiffRungs)
+            {
+                foreach (DifficultyWidgetLevel diffRung in diffWidgetRungs)
+                {
+                    if (diffRung.rung == rung)
+                    {
+                        oColour = diffRung.GetColor();
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
     }

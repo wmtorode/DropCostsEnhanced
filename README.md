@@ -34,7 +34,9 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
   "maxDifficulty" : 25,
   "useDifficultyCostScaling" : false,
   "defaultDifficultyCostModifier" : 1.0,
-  "difficultyCostModifiers" : []
+  "difficultyCostModifiers" : [],
+  "useDiffRungs" : false,
+  "diffWidgetRungs" : []
 }
 ```
 
@@ -78,6 +80,23 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 `defaultMechsToCount` : The default number of mechs to count for company difficulty when `bigger drops` is not present
 
 `maxDifficulty` : The max contract difficulty that can be generated when not in system mode.
+
+`useDiffRungs` : Allow Lance Selection/skull difficulty widgets display difficulties over 5 skulls, this is represented by the indicators changing colour. colours for each rung of 5 skulls is defined in `diffWidgetRungs`
+
+`diffWidgetRungs`: indicator colour selection, a list of `DifficultyWidgetLevel` objects
+
+### DifficultyWidgetLevel Objects
+
+```json
+{
+    "rung" : 1,
+    "colour" : "#e6210b"
+}
+```
+
+`rung` : the rung level that this colour should be applied to, each rung level represents a set of 5 skulls, starting with rung level 0, which represents 0.5 - 5 skulls, rung level 1 5.5 - 10 skulls, etc
+
+`colour` : an html colour code, the colour to be applied for this rung level
 
 ## Drop Costs
 

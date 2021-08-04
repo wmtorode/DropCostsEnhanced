@@ -37,7 +37,7 @@ namespace DropCostsEnhanced.Patches
                         label.text = "Lance Rating";
                         int difficulty = DropCostManager.Instance.RawCost / DCECore.settings.valuePerHalfSkull;
                         DCECore.modLog.Debug?.Write($"Calculated Drop Rating: {difficulty}, total value: {DropCostManager.Instance.RawCost}");
-                        lanceRatingWidget.SetDifficulty(Mathf.Min(10, difficulty));
+                        lanceRatingWidget.SetDifficulty(difficulty);
                     }
                 }
             }

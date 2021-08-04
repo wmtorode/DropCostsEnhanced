@@ -43,8 +43,9 @@
     <Reference Include="CustomComponents">
       <HintPath>D:\rogueTech\Cache\RtCache\CustomComponents\CustomComponents.dll</HintPath>
     </Reference>
-    <Reference Include="IRBTModUtils, Version=1.7.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>D:\rogueTech\Cache\RtCache\IRBTModUtils\IRBTModUtils.dll</HintPath>
+    <Reference Include="IRBTModUtils, Version=1.10.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RtlCache\RtCache\IRBTModUtils\IRBTModUtils.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:\SteamLibrary\steamapps\common\BATTLETECH\BattleTech_Data\Managed\Newtonsoft.Json.dll</HintPath>
@@ -73,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Data\AmmoCost.cs" />
     <Compile Include="Data\DifficultyScaler.cs" />
+    <Compile Include="Data\DifficultyWidgetLevel.cs" />
     <Compile Include="Data\DropCostFactor.cs" />
     <Compile Include="Data\EDifficultyType.cs" />
     <Compile Include="Data\FactionCapital.cs" />
