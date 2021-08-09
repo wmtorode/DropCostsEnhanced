@@ -87,6 +87,7 @@
     <Compile Include="Features\HeatCostManager.cs" />
     <Compile Include="Patches\AAR_ContractObjectivesWidget.cs" />
     <Compile Include="Patches\Contract.cs" />
+    <Compile Include="Patches\ContractOverrides.cs" />
     <Compile Include="Patches\LanceHeaderWidget.cs" />
     <Compile Include="Patches\SGDifficultyIndicatorWidget.cs" />
     <Compile Include="Patches\SGNavigationScreen.cs" />

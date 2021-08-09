@@ -35,7 +35,7 @@ namespace DropCostsEnhanced
         public MissionObjectiveResult GetObjectiveResult()
         {
             string missionObjectiveResultString = $"{ObjectiveText}: ¢{FormattedCosts}";
-            MissionObjectiveResult missionObjectiveResult = new MissionObjectiveResult(missionObjectiveResultString, uuid, false, true, ObjectiveStatus.Succeeded, false);
+            MissionObjectiveResult missionObjectiveResult = new MissionObjectiveResult(missionObjectiveResultString, uuid, false, true, ObjectiveStatus.Ignored, false);
             return missionObjectiveResult;
         }
 
