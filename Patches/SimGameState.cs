@@ -1,5 +1,6 @@
 ﻿using BattleTech;
 using BattleTech.UI;
+using BattleTech.Save;
 using Harmony;
 using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
@@ -10,6 +11,25 @@ using UnityEngine;
 
 namespace DropCostsEnhanced.Patches
 {
+    
+    [HarmonyPatch(typeof(SimGameState), "Rehydrate", typeof(GameInstanceSave))]
+    class SimGameState_RehydratePatch
+    {
+        public static void Postfix(SimGameState __instance, GameInstanceSave gameInstanceSave)
+        {
+            DifficultyManager.Instance.setCompanyStats(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(SimGameState), "InitCompanyStats")]
+    class SimGameState_InitCompanyStatsPatch
+    {
+        public static void Postfix(SimGameState __instance)
+        {
+            DifficultyManager.Instance.setCompanyStats(__instance);
+        }
+    }
+    
     [HarmonyPatch(typeof(SimGameState), "ShowDifficultMissionPopup")]
     public static class SimGameState_ShowDifficultMissionPopup {
         
@@ -50,16 +70,18 @@ namespace DropCostsEnhanced.Patches
                     {
                         if (DCECore.settings.diffMode == EDifficultyType.Company)
                         {
-                            
+                            DCECore.cachedDifficulty = Mathf.Min(DCECore.settings.maxDifficulty, Mathf.Round(DifficultyManager.Instance.getCompanyDifficulty()));
+                            DCECore.modLog.Info?.Write($"Setting Global difficulty to: {DCECore.cachedDifficulty}, Counted Contracts: {DCECore.settings.averagedDrops}, average worth of counted drops: {DifficultyManager.Instance.dropWorth}");
                         }
                         else
                         {
                             DCECore.cachedDifficulty = Mathf.Min(DCECore.settings.maxDifficulty, Mathf.Round(DifficultyManager.Instance.getLegacyCompanyDifficulty(__instance)));
+                            DCECore.modLog.Info?.Write($"Setting Global difficulty to: {DCECore.cachedDifficulty}, Counted Mechs: {DifficultyManager.Instance.legacyCountedMechs}, worth of counted mechs: {DifficultyManager.Instance.legacyWorth}");
                         }
                         
                         DCECore.cacheValidUntil = DateTime.UtcNow.AddSeconds(30);
                         __result = DCECore.cachedDifficulty;
-                        DCECore.modLog.Info?.Write($"Setting Global difficulty to: {__result}, Counted Mechs: {countedmechs}, worth of counted mechs: {totalMechWorth}");
+                        
                         
                     }
                 }

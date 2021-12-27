@@ -53,6 +53,7 @@ namespace DropCostsEnhanced
                 DropCostManager.Instance.Initialize();
                 AmmoCostManager.Instance.Initialize();
                 HeatCostManager.Instance.Initialize();
+                DifficultyManager.Instance.Initialize();
             }
             catch (Exception e)
             {

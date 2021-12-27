@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BattleTech;
 using Harmony;
 using DropCostsEnhanced;
+using DropCostsEnhanced.Data;
 using UnityEngine;
 
 namespace DropCostsEnhanced.Patches
@@ -17,6 +18,14 @@ namespace DropCostsEnhanced.Patches
                 CombatGameState combat = __instance.BattleTechGame.Combat;
                 DCECore.modLog.Info?.Write($"Calculating Drop Cost for {__instance.Name}. Original MoneyResults: {__instance.MoneyResults}");
                 List<AbstractActor> actors = combat.AllActors;
+
+                if (DCECore.settings.diffMode != EDifficultyType.NotActive)
+                {
+                    if (!DCECore.settings.excludedContractTypes.Contains(__instance.ContractTypeValue.Name))
+                    {
+                        DifficultyManager.Instance.updateDropAverage(DropCostManager.Instance.RawCost);
+                    }
+                }
 
 
                 int TotalCost = 0;

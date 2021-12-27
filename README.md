@@ -36,7 +36,10 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
   "defaultDifficultyCostModifier" : 1.0,
   "difficultyCostModifiers" : [],
   "useDiffRungs" : false,
-  "diffWidgetRungs" : []
+  "diffWidgetRungs" : [],
+  "additionalUnitCount" : 4,
+  "averagedDrops" : 8,
+  "excludedContractTypes" : []
 }
 ```
 
@@ -70,8 +73,9 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 
     - NotActive: The default mode, Global difficulty patches are not applied at all
     - System: Difficulty is based on systemdef defined. This is functionaly the same as NotActive, but Global difficulty patches are applied
-    - Company: Difficulty is based on the value of your best fieldable units. Note: When this mode is active, the Difficulty Filter in the starmap will not work (biome filter still works)
+    - Company: Difficulty is based on the value of the your deployed forces over the past X missions. Note: When this mode is active, the Difficulty Filter in the starmap will not work (biome filter still works)
     - Reputation: Difficulty is based on your standing with factions. 
+    - LegacyCompany: Difficulty is based on the value of your best fieldable units. Note: When this mode is active, the Difficulty Filter in the starmap will not work (biome filter still works)
 
 *The below settings are only active when `diffMode` is set to something other than `NotActive`*
 
@@ -84,6 +88,12 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 `useDiffRungs` : Allow Lance Selection/skull difficulty widgets display difficulties over 5 skulls, this is represented by the indicators changing colour. colours for each rung of 5 skulls is defined in `diffWidgetRungs`
 
 `diffWidgetRungs`: indicator colour selection, a list of `DifficultyWidgetLevel` objects
+
+`additionalUnitCount`: When using `LegacyCompany` mode count this number of mechs on top of biggerDrops upgrades. default is `4` for legacy versions of BD. if using newer BD, set to `0`.
+
+`averagedDrops` : The number of drops to use for creating averaged drop difficulty when using `Company` difficulty mode
+
+`excludedContractTypes` : Contract Types to exclude from being counted towards averaged drop difficulty
 
 ### DifficultyWidgetLevel Objects
 
