@@ -74,7 +74,7 @@ namespace DropCostsEnhanced
                 DCECore.modLog.Info?.Write($"CStats is null, race-condition?");
                 return 0;
             }
-            int totalCost = 0;
+            long totalCost = 0;
             for (int i = 0; i < DCECore.settings.averagedDrops; i++)
             {
                 string statName = $"{DropCostStatPrefix}{i}";
@@ -87,8 +87,8 @@ namespace DropCostsEnhanced
             DCECore.modLog.Debug?.Write($"TotalCost before averaging: {totalCost}");
             totalCost /= DCECore.settings.averagedDrops;
             DCECore.modLog.Debug?.Write($"TotalCost after averaging: {totalCost}");
-            dropWorth = totalCost;
-            return totalCost;
+            dropWorth = (int)totalCost;
+            return dropWorth;
 
         }
         
