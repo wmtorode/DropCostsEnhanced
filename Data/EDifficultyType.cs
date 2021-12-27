@@ -5,6 +5,7 @@
         System = 0,
         Company = 1,
         Reputation = 2,
-        NotActive = 3
+        NotActive = 3,
+        LegacyCompany = 4
     }
 }

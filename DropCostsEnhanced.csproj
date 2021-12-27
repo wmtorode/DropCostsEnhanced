@@ -83,6 +83,7 @@
     <Compile Include="DCECore.cs" />
     <Compile Include="Features\AmmoCostManager.cs" />
     <Compile Include="Features\BaseCostManager.cs" />
+    <Compile Include="Features\DifficultyManager.cs" />
     <Compile Include="Features\DropCostManager.cs" />
     <Compile Include="Features\HeatCostManager.cs" />
     <Compile Include="Patches\AAR_ContractObjectivesWidget.cs" />

@@ -35,7 +35,11 @@ namespace DropCostsEnhanced.Data
         public int valuePerHalfSkull = 16500000;
         public int defaultMechsToCount = 8;
         public int maxDifficulty = 25;
-        
+        public int additionalUnitCount = 4;
+        public int averagedDrops = 8;
+
+        public List<string> excludedContractTypes = new List<string>();
+
         [JsonIgnore]
         private Dictionary<string, string> factionToCapital = new Dictionary<string, string>();
         

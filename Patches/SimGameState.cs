@@ -40,7 +40,7 @@ namespace DropCostsEnhanced.Patches
         
         static void Postfix(SimGameState __instance, ref float __result) {
             try {
-                if (DCECore.settings.diffMode == EDifficultyType.Company) {
+                if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany) {
                     if (DateTime.UtcNow.Ticks < DCECore.cacheValidUntil.Ticks)
                     {
                         __result = DCECore.cachedDifficulty;
@@ -48,31 +48,15 @@ namespace DropCostsEnhanced.Patches
                     }
                     else
                     {
-                        int totalMechWorth = 0;
-                        List<MechDef> mechlist = __instance.ActiveMechs.Values.ToList();
-                        mechlist = mechlist.OrderByDescending(x => DropCostManager.Instance.CalculateMechCost(x))
-                            .ToList();
-                        int countedmechs = DCECore.settings.defaultMechsToCount;
-                        if (__instance.CompanyStats.ContainsStatistic("BiggerDrops_AdditionalMechSlots") &&
-                            countedmechs > 4)
+                        if (DCECore.settings.diffMode == EDifficultyType.Company)
                         {
-                            int deploySize =
-                                4 + __instance.CompanyStats.GetValue<int>("BiggerDrops_AdditionalMechSlots");
-                            countedmechs = Math.Min(deploySize, DCECore.settings.defaultMechsToCount);
+                            
                         }
-
-                        if (mechlist.Count < countedmechs)
+                        else
                         {
-                            countedmechs = mechlist.Count;
+                            DCECore.cachedDifficulty = Mathf.Min(DCECore.settings.maxDifficulty, Mathf.Round(DifficultyManager.Instance.getLegacyCompanyDifficulty(__instance)));
                         }
-
-                        for (int i = 0; i < countedmechs; i++)
-                        {
-                            totalMechWorth += Mathf.RoundToInt(DropCostManager.Instance.CalculateMechCost(mechlist[i]));
-                        }
-
-                        float difficulty = totalMechWorth / DCECore.settings.valuePerHalfSkull;
-                        DCECore.cachedDifficulty = Mathf.Min(DCECore.settings.maxDifficulty, Mathf.Round(difficulty));
+                        
                         DCECore.cacheValidUntil = DateTime.UtcNow.AddSeconds(30);
                         __result = DCECore.cachedDifficulty;
                         DCECore.modLog.Info?.Write($"Setting Global difficulty to: {__result}, Counted Mechs: {countedmechs}, worth of counted mechs: {totalMechWorth}");
@@ -99,7 +83,7 @@ namespace DropCostsEnhanced.Patches
             }
             
             static void Postfix(SimGameState __instance, ref int __result) {
-                if (DCECore.settings.diffMode == EDifficultyType.Company) {
+                if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany) {
                     __result = Mathf.RoundToInt(Mathf.Clamp(__instance.GlobalDifficulty, 0, DCECore.settings.maxDifficulty));
                 }
             }
