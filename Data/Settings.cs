@@ -37,8 +37,10 @@ namespace DropCostsEnhanced.Data
         public int maxDifficulty = 25;
         public int additionalUnitCount = 4;
         public int averagedDrops = 8;
+        public bool excludeFlashpointsFromDropAverage = true;
 
         public List<string> excludedContractTypes = new List<string>();
+        public List<string> excludedContractIds = new List<string>();
 
         [JsonIgnore]
         private Dictionary<string, string> factionToCapital = new Dictionary<string, string>();

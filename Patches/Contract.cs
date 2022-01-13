@@ -21,7 +21,25 @@ namespace DropCostsEnhanced.Patches
 
                 if (DCECore.settings.diffMode != EDifficultyType.NotActive)
                 {
-                    if (!DCECore.settings.excludedContractTypes.Contains(__instance.ContractTypeValue.Name))
+                    bool fpAllowed = true;
+                    if (!DCECore.settings.excludeFlashpointsFromDropAverage &&
+                        (__instance.IsFlashpointContract || __instance.IsFlashpointCampaignContract))
+                    {
+                        fpAllowed = false;
+                    }
+
+                    bool excludedId = false;
+                    if (__instance.Override != null)
+                    {
+                        if (DCECore.settings.excludedContractIds.Contains(__instance.Override.ID))
+                        {
+                            excludedId = true;
+                        }
+                    }
+                    
+                    // only include the mission in the average if its not an excluded type, is not an excluded ID and possibily if
+                    // not a flashpoint
+                    if (!DCECore.settings.excludedContractTypes.Contains(__instance.ContractTypeValue.Name) && fpAllowed && !excludedId)
                     {
                         DifficultyManager.Instance.updateDropAverage(DropCostManager.Instance.RawCost);
                     }

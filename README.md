@@ -39,7 +39,9 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
   "diffWidgetRungs" : [],
   "additionalUnitCount" : 4,
   "averagedDrops" : 8,
-  "excludedContractTypes" : []
+  "excludedContractTypes" : [],
+  "excludeFlashpointsFromDropAverage" : true,
+  "excludedContractIds" : []
 }
 ```
 
@@ -94,6 +96,10 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 `averagedDrops` : The number of drops to use for creating averaged drop difficulty when using `Company` difficulty mode
 
 `excludedContractTypes` : Contract Types to exclude from being counted towards averaged drop difficulty
+
+`excludeFlashpointsFromDropAverage` : When true, flashpoint contracts are excluded from affecting averaged drop difficulty
+
+`excludedContractIds` : Contract IDs to exclude from being counted towards averaged drop difficulty
 
 ### DifficultyWidgetLevel Objects
 
