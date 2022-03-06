@@ -20,7 +20,7 @@ namespace DropCostsEnhanced.Patches
         }
 
         static void Prefix(Starmap __instance, SimGameState simGame) {
-            if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany) {
+            if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure) {
                 foreach (StarSystem system in simGame.StarSystems) {
                     AccessTools.Field(typeof(StarSystemDef), "DefaultDifficulty").SetValue(system.Def, 0);
                     AccessTools.Field(typeof(StarSystemDef), "DifficultyList").SetValue(system.Def, new List<int>());

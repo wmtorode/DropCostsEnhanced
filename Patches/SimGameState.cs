@@ -86,8 +86,16 @@ namespace DropCostsEnhanced.Patches
                     }
                 }
                 else {
-                    __result = 0;
-                    DCECore.modLog.Debug?.Write($"using 0 diff: {DCECore.settings.diffMode}");
+                    if (DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure)
+                    {
+                        __result = DifficultyManager.Instance.getChooseYourOwnAdventureDifficulty();
+                        DCECore.modLog.Debug?.Write($"using CYOA diff: {__result}");
+                    }
+                    else
+                    {
+                        __result = 0;
+                        DCECore.modLog.Debug?.Write($"using 0 diff: {DCECore.settings.diffMode}");
+                    }
                 }
             }
             catch (Exception e) {
@@ -105,7 +113,7 @@ namespace DropCostsEnhanced.Patches
             }
             
             static void Postfix(SimGameState __instance, ref int __result) {
-                if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany) {
+                if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure) {
                     __result = Mathf.RoundToInt(Mathf.Clamp(__instance.GlobalDifficulty, 0, DCECore.settings.maxDifficulty));
                 }
             }

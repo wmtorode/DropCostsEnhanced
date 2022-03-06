@@ -84,6 +84,7 @@
     <Compile Include="Features\AmmoCostManager.cs" />
     <Compile Include="Features\BaseCostManager.cs" />
     <Compile Include="Features\DifficultyManager.cs" />
+    <Compile Include="Features\DifficultySelectPopUp.cs" />
     <Compile Include="Features\DropCostManager.cs" />
     <Compile Include="Features\HeatCostManager.cs" />
     <Compile Include="Patches\AAR_ContractObjectivesWidget.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Patches\LanceHeaderWidget.cs" />
     <Compile Include="Patches\SGDifficultyIndicatorWidget.cs" />
     <Compile Include="Patches\SGNavigationScreen.cs" />
+    <Compile Include="Patches\SGRoomController_CptQuarters.cs" />
     <Compile Include="Patches\SimGameState.cs" />
     <Compile Include="Patches\Starmap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

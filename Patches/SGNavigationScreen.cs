@@ -13,7 +13,7 @@ namespace DropCostsEnhanced.Patches
     {
         public static bool Prepare()
         {
-            return DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany;
+            return DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure;
         }
 
         static void Prefix(SGNavigationScreen __instance, ref int index)
