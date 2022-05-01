@@ -22,7 +22,7 @@ namespace DropCostsEnhanced.Patches
                 if (DCECore.settings.diffMode != EDifficultyType.NotActive)
                 {
                     bool fpAllowed = true;
-                    if (!DCECore.settings.excludeFlashpointsFromDropAverage &&
+                    if (DCECore.settings.excludeFlashpointsFromDropAverage &&
                         (__instance.IsFlashpointContract || __instance.IsFlashpointCampaignContract))
                     {
                         fpAllowed = false;
