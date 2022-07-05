@@ -3,6 +3,7 @@ using BattleTech;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SVGImporter;
 using UnityEngine;
 
 namespace DropCostsEnhanced.Data
@@ -101,6 +102,40 @@ namespace DropCostsEnhanced.Data
                 }
             }
 
+            return false;
+        }
+
+        public bool getRungIcon(int rung, out SVGAsset asset)
+        {
+            asset = null;
+            if (useDiffRungs)
+            {
+                foreach (DifficultyWidgetLevel diffRung in diffWidgetRungs)
+                {
+                    if (diffRung.rung == rung)
+                    {
+                        asset = diffRung.GetIconAsset();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool getRungBackingIcon(int rung, out SVGAsset asset)
+        {
+            asset = null;
+            if (useDiffRungs)
+            {
+                foreach (DifficultyWidgetLevel diffRung in diffWidgetRungs)
+                {
+                    if (diffRung.rung == rung)
+                    {
+                        asset = diffRung.GetIconBackingAsset();
+                        return true;
+                    }
+                }
+            }
             return false;
         }
     }

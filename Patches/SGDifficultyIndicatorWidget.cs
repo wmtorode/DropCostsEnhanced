@@ -7,6 +7,8 @@ using DropCostsEnhanced.Data;
 using UnityEngine;
 using SVGImporter;
 using System.Collections.Generic;
+using System.Net.Mime;
+using UnityEngine.UI;
 
 
 namespace DropCostsEnhanced.Patches
@@ -39,12 +41,35 @@ namespace DropCostsEnhanced.Patches
 
             int index;
             Color color;
+            SVGAsset asset;
+            SVGAsset assetBacking;
             bool customColor = DCECore.settings.getRungColor(Math.Max((difficulty - 1) / 10, 0), out color);
+            bool customAsset = DCECore.settings.getRungIcon(Math.Max((difficulty - 1) / 10, 0), out asset);
+            bool customAssetBacking = DCECore.settings.getRungBackingIcon(Math.Max((difficulty - 1) / 10, 0), out assetBacking);
+            if (customAsset)
+            {
+                HorizontalLayoutGroup[] backingComponents = __instance.GetComponentsInChildren<HorizontalLayoutGroup>();
+                for (int i = 0; i < backingComponents.Length; i++)
+                {
+                    if (backingComponents[i].name == "pip-backings")
+                    {
+                        SVGImage[] backingImages = backingComponents[i].GetComponentsInChildren<SVGImage>();
+                        for (int j = 0; j < backingImages.Length; j++)
+                        {
+                            backingImages[j].GetComponent<SVGImage>().vectorGraphics = assetBacking;
+                        }
+                    }
+                }
+            }
             for (index = 0; index < Mathf.FloorToInt(f); ++index)
             {
                 UIColorRefTracker pip = ___pips[index];
                 pip.GetComponent<SVGImage>().fillAmount = 1f;
-                
+                if (customAsset)
+                {
+                    SVGImage svgImage = pip.GetComponent<SVGImage>();
+                    svgImage.vectorGraphics = asset;
+                }
                 if (customColor)
                 {
                     pip.SetUIColor(UIColor.Custom);
@@ -59,7 +84,11 @@ namespace DropCostsEnhanced.Patches
                 return false;
             UIColorRefTracker pip1 = ___pips[index];
             SVGImage component = pip1.GetComponent<SVGImage>();
-            
+            if (customAsset)
+            {
+                SVGImage svgImage = pip1.GetComponent<SVGImage>();
+                svgImage.vectorGraphics = asset;
+            }
             if (customColor)
             {
                 pip1.SetUIColor(UIColor.Custom);
