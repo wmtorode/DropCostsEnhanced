@@ -106,13 +106,19 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 ```json
 {
     "rung" : 1,
-    "colour" : "#e6210b"
+    "colour" : "#e6210b",
+    "iconOverride": "edited",
+		"iconBackingOverride": "edited"
 }
 ```
 
 `rung` : the rung level that this colour should be applied to, each rung level represents a set of 5 skulls, starting with rung level 0, which represents 0.5 - 5 skulls, rung level 1 5.5 - 10 skulls, etc
 
 `colour` : an html colour code, the colour to be applied for this rung level
+
+`iconOverride` : string name of SVG asset which will override the vanilla atlas skull for difficulty indicators
+
+`iconBackingOverride` : string name of SVG asset which will override the vanilla atlas skull which is the shaded grey background for the "unfilled" difficulty indicators. vanilla behavior would be set to the same as `iconOverride` (same shape), but you can define a different background if you want.
 
 ## Drop Costs
 
