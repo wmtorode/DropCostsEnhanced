@@ -46,7 +46,7 @@ namespace DropCostsEnhanced.Patches
             bool customColor = DCECore.settings.getRungColor(Math.Max((difficulty - 1) / 10, 0), out color);
             bool customAsset = DCECore.settings.getRungIcon(Math.Max((difficulty - 1) / 10, 0), out asset);
             bool customAssetBacking = DCECore.settings.getRungBackingIcon(Math.Max((difficulty - 1) / 10, 0), out assetBacking);
-            if (customAsset)
+            if (customAssetBacking)
             {
                 HorizontalLayoutGroup[] backingComponents = __instance.GetComponentsInChildren<HorizontalLayoutGroup>();
                 for (int i = 0; i < backingComponents.Length; i++)

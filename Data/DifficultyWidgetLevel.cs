@@ -33,7 +33,7 @@ namespace DropCostsEnhanced.Data
 
         public SVGAsset GetIconAsset()
         {
-            if (!iSet)
+            if (!iSet && !string.IsNullOrEmpty(iconOverride))
             {
                 DataManager dm = UnityGameInstance.BattleTechGame.DataManager;
                 iconOverrideAsset = dm.GetObjectOfType<SVGAsset>(iconOverride, BattleTechResourceType.SVGAsset);
@@ -44,7 +44,7 @@ namespace DropCostsEnhanced.Data
 
         public SVGAsset GetIconBackingAsset()
         {
-            if (!bSet)
+            if (!bSet && ! string.IsNullOrEmpty(iconBackingOverride))
             {
                 DataManager dm = UnityGameInstance.BattleTechGame.DataManager;
                 iconBackingOverrideAsset = dm.GetObjectOfType<SVGAsset>(iconBackingOverride, BattleTechResourceType.SVGAsset);
