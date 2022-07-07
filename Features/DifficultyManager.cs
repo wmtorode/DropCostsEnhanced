@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using DropCostsEnhanced.Data;
 using System.Linq;
+using BattleTech.Data;
+using SVGImporter;
 using UnityEngine;
 
 namespace DropCostsEnhanced

@@ -7,6 +7,8 @@ using DropCostsEnhanced.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BattleTech.Data;
+using SVGImporter;
 using UnityEngine;
 
 namespace DropCostsEnhanced.Patches
@@ -18,6 +20,19 @@ namespace DropCostsEnhanced.Patches
         public static void Postfix(SimGameState __instance, GameInstanceSave gameInstanceSave)
         {
             DifficultyManager.Instance.setCompanyStats(__instance);
+            if (DCECore.settings.useDiffRungs)
+            {
+                DataManager dm = UnityGameInstance.BattleTechGame.DataManager;
+                LoadRequest loadRequest = dm.CreateLoadRequest();
+                foreach (var rung in DCECore.settings.diffWidgetRungs)
+                {
+                    if (!string.IsNullOrEmpty(rung.iconOverride)) loadRequest.AddLoadRequest<SVGAsset>(BattleTechResourceType.SVGAsset, rung.iconOverride,
+                        null);
+                    if (!string.IsNullOrEmpty(rung.iconBackingOverride)) loadRequest.AddLoadRequest<SVGAsset>(BattleTechResourceType.SVGAsset, rung.iconBackingOverride,
+                        null);
+                }
+                loadRequest.ProcessRequests();
+            }
         }
     }
 
@@ -27,6 +42,19 @@ namespace DropCostsEnhanced.Patches
         public static void Postfix(SimGameState __instance)
         {
             DifficultyManager.Instance.setCompanyStats(__instance);
+            if (DCECore.settings.useDiffRungs)
+            {
+                DataManager dm = UnityGameInstance.BattleTechGame.DataManager;
+                LoadRequest loadRequest = dm.CreateLoadRequest();
+                foreach (var rung in DCECore.settings.diffWidgetRungs)
+                {
+                    if (!string.IsNullOrEmpty(rung.iconOverride)) loadRequest.AddLoadRequest<SVGAsset>(BattleTechResourceType.SVGAsset, rung.iconOverride,
+                        null);
+                    if (!string.IsNullOrEmpty(rung.iconBackingOverride)) loadRequest.AddLoadRequest<SVGAsset>(BattleTechResourceType.SVGAsset, rung.iconBackingOverride,
+                        null);
+                }
+                loadRequest.ProcessRequests();
+            }
         }
     }
     
