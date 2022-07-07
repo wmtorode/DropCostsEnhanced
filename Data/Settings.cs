@@ -115,7 +115,7 @@ namespace DropCostsEnhanced.Data
                     if (diffRung.rung == rung)
                     {
                         asset = diffRung.GetIconAsset();
-                        return true;
+                        if (asset != null) return true;
                     }
                 }
             }
@@ -132,7 +132,7 @@ namespace DropCostsEnhanced.Data
                     if (diffRung.rung == rung)
                     {
                         asset = diffRung.GetIconBackingAsset();
-                        return true;
+                        if (asset != null) return true;
                     }
                 }
             }
