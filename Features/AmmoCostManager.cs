@@ -58,6 +58,7 @@ namespace DropCostsEnhanced
                 int unitsUsed = 0;
                 float costPerUnit = 0;
                 int componentCost = 0;
+                int currentAmmo = 0;
                 
                 if (actor.team != null && actor.team.IsLocalPlayer)
                 {
@@ -69,9 +70,15 @@ namespace DropCostsEnhanced
                         if (weapon.weaponDef.StartingAmmoCapacity > 0)
                         {
                             costPerUnit = getInternalMunitionCost(weapon);
-                            unitsUsed = weapon.weaponDef.StartingAmmoCapacity - weapon.InternalAmmo;
+                            currentAmmo = weapon.InternalAmmo;
+                            if (currentAmmo < 0)
+                            {
+                                DCECore.modLog.Warn?.Write($"Negative Ammo Detected!");
+                                currentAmmo = 0;
+                            }
+                            unitsUsed = weapon.weaponDef.StartingAmmoCapacity - currentAmmo;
                             componentCost = Mathf.FloorToInt(unitsUsed * costPerUnit);
-                            DCECore.modLog.Info?.Write($"Weapon: {weapon.UIName}, internal ammo: {weapon.InternalAmmo}/{weapon.weaponDef.StartingAmmoCapacity}, cost: {componentCost}");
+                            DCECore.modLog.Info?.Write($"Weapon: {weapon.UIName}, internal ammo: {currentAmmo}/{weapon.weaponDef.StartingAmmoCapacity}, cost: {componentCost}");
                             actorAmmoCost += componentCost;
                                 
                         }
@@ -81,9 +88,15 @@ namespace DropCostsEnhanced
                     foreach (AmmunitionBox ammunitionBox in ammunitionBoxes)
                     {
                         costPerUnit = getMunitionCost(ammunitionBox);
-                        unitsUsed = ammunitionBox.AmmoCapacity - ammunitionBox.CurrentAmmo;
+                        currentAmmo = ammunitionBox.CurrentAmmo;
+                        if (currentAmmo < 0)
+                        {
+                            DCECore.modLog.Warn?.Write($"Negative Ammo Detected!");
+                            currentAmmo = 0;
+                        }
+                        unitsUsed = ammunitionBox.AmmoCapacity - currentAmmo;
                         componentCost = Mathf.FloorToInt(unitsUsed * costPerUnit);
-                        DCECore.modLog.Info?.Write($"AmmoBox: {ammunitionBox.UIName}, remaining ammo: {ammunitionBox.CurrentAmmo}/{ammunitionBox.AmmoCapacity}, cost: {componentCost}");
+                        DCECore.modLog.Info?.Write($"AmmoBox: {ammunitionBox.UIName}, remaining ammo: {currentAmmo}/{ammunitionBox.AmmoCapacity}, cost: {componentCost}");
                         actorAmmoCost += componentCost;
                     }
 
