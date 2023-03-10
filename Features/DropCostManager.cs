@@ -85,6 +85,28 @@ namespace DropCostsEnhanced
             return Cost;
         }
 
+        public int CalculateMechDropCost(MechDef mech)
+        {
+            int dropTonnageCost = 0;
+            DCECore.modLog.Info?.Write($"Calculating Drop Costs for unit: {mech.Name}");
+            float modifier = 1.0f;
+            if (mech.Chassis.Is<DropCostFactor>(out var costFactor))
+            {
+                modifier = costFactor.DropModifier;
+            }
+            DCECore.modLog.Info?.Write($"unit has cost modifier of: {modifier}");
+            if (DCECore.settings.useCostByTons)
+            {
+                dropTonnageCost = (int) ((mech.Chassis.Tonnage * DCECore.settings.dropCostPerTon) * modifier);
+                DCECore.modLog.Info?.Write($"tonnage cost: {dropTonnageCost}");
+            }
+
+            float mechCost = CalculateMechValue(mech);
+            int valueCost = (int) ((mechCost * DCECore.settings.costFactor) * modifier);
+            return dropTonnageCost + valueCost;
+
+        }
+
         public void CalculateLanceCost(List<MechDef> mechDefs)
         {
             Cost = 0;
