@@ -39,7 +39,7 @@ namespace DropCostsEnhanced
             return Mathf.FloorToInt(CalculateMechValue(mech));
         }
 
-        private float CalculateMechValue(MechDef mech)
+        public float CalculateMechValue(MechDef mech)
         {
             float currentCBillValue = (float)mech.Chassis.Description.Cost;
             float armorValue = 0f;

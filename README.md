@@ -108,7 +108,7 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
     "rung" : 1,
     "colour" : "#e6210b",
     "iconOverride": "edited",
-		"iconBackingOverride": "edited"
+    "iconBackingOverride": "edited"
 }
 ```
 
