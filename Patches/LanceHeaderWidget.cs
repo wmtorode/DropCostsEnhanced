@@ -17,17 +17,16 @@ namespace DropCostsEnhanced.Patches
             return DCECore.settings.enableDropCosts;
         }
         
-        static void Postfix(LanceHeaderWidget __instance, List<MechDef> mechs, LocalizableText ___simLanceTonnageText, LanceConfiguratorPanel ___LC) {
+        static void Postfix(LanceHeaderWidget __instance, List<MechDef> mechs) {
             try {
-                if (___LC.IsSimGame) {
+                if (__instance.LC.IsSimGame) {
                     DropCostManager.Instance.CalculateLanceCost(mechs);
 
                     // longer strings interfere with messages about incorrect lance configurations
-                    ___simLanceTonnageText.SetText($"DROP COST: ¢{DropCostManager.Instance.FormattedCosts}   LANCE WEIGHT: {DropCostManager.Instance.LanceTonnage} TONS");
+                    __instance.simLanceTonnageText.SetText($"DROP COST: ¢{DropCostManager.Instance.FormattedCosts}   LANCE WEIGHT: {DropCostManager.Instance.LanceTonnage} TONS");
                     if (DCECore.settings.diffMode != EDifficultyType.NotActive)
                     {
-                        SGDifficultyIndicatorWidget lanceRatingWidget = (SGDifficultyIndicatorWidget) AccessTools
-                            .Field(typeof(LanceHeaderWidget), "lanceRatingWidget").GetValue(__instance);
+                        SGDifficultyIndicatorWidget lanceRatingWidget = __instance.lanceRatingWidget;
                         TextMeshProUGUI label = lanceRatingWidget.transform.parent
                             .GetComponentsInChildren<TextMeshProUGUI>()
                             .FirstOrDefault(t => t.transform.name == "label-lanceRating");

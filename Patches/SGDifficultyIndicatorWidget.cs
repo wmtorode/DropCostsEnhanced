@@ -17,7 +17,7 @@ namespace DropCostsEnhanced.Patches
             return DCECore.settings.diffMode != EDifficultyType.NotActive;
         }
 
-        static void Prefix(ref bool __runOriginal, SGDifficultyIndicatorWidget __instance, List<UIColorRefTracker> ___pips, UIColor ___activeColor, ref int difficulty)
+        static void Prefix(ref bool __runOriginal, SGDifficultyIndicatorWidget __instance, ref int difficulty)
         {
             
             if (!__runOriginal)
@@ -25,8 +25,7 @@ namespace DropCostsEnhanced.Patches
                 return;
             }
             
-            Traverse difficultySetter = Traverse.Create(__instance).Property("Difficulty");
-            difficultySetter.SetValue(difficulty);
+            __instance.Difficulty = difficulty;
             __instance.Reset();
             float f =  ((float)(difficulty)%10)/ 2f;
             if (!DCECore.settings.useDiffRungs)
@@ -65,7 +64,7 @@ namespace DropCostsEnhanced.Patches
             }
             for (index = 0; index < Mathf.FloorToInt(f); ++index)
             {
-                UIColorRefTracker pip = ___pips[index];
+                UIColorRefTracker pip = __instance.pips[index];
                 pip.GetComponent<SVGImage>().fillAmount = 1f;
                 if (customAsset)
                 {
@@ -79,7 +78,7 @@ namespace DropCostsEnhanced.Patches
                 }
                 else
                 {
-                    pip.SetUIColor(___activeColor);
+                    pip.SetUIColor(__instance.activeColor);
                 }
             }
 
@@ -88,7 +87,7 @@ namespace DropCostsEnhanced.Patches
                 __runOriginal = false;
                 return;
             }
-            UIColorRefTracker pip1 = ___pips[index];
+            UIColorRefTracker pip1 = __instance.pips[index];
             SVGImage component = pip1.GetComponent<SVGImage>();
             if (customAsset)
             {
@@ -102,7 +101,7 @@ namespace DropCostsEnhanced.Patches
             }
             else
             {
-                pip1.SetUIColor(___activeColor);
+                pip1.SetUIColor(__instance.activeColor);
             }
             component.fillAmount = f - (float) index;
             __runOriginal = false;

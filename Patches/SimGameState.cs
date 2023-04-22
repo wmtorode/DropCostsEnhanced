@@ -61,7 +61,7 @@ namespace DropCostsEnhanced.Patches
         {
             return DCECore.settings.diffMode != EDifficultyType.NotActive;
         }
-        static void Prefix(ref bool __runOriginal, SimGameState __instance, SimGameInterruptManager ___interruptQueue) {
+        static void Prefix(ref bool __runOriginal, SimGameState __instance) {
             
             if (!__runOriginal)
             {
@@ -69,7 +69,7 @@ namespace DropCostsEnhanced.Patches
             }
             
             try {
-                ___interruptQueue.QueuePauseNotification("Difficult Mission", "Careful, Commander. This drop looks like it might require more firepower than that.", __instance.GetCrewPortrait(SimGameCrew.Crew_Darius), string.Empty, new Action(__instance.RoomManager.CmdCenterRoom.lanceConfigBG.LC.ContinueConfirmClicked), "CONFIRM", null, "BACK");
+                __instance.interruptQueue.QueuePauseNotification("Difficult Mission", "Careful, Commander. This drop looks like it might require more firepower than that.", __instance.GetCrewPortrait(SimGameCrew.Crew_Darius), string.Empty, new Action(__instance.RoomManager.CmdCenterRoom.lanceConfigBG.LC.ContinueConfirmClicked), "CONFIRM", null, "BACK");
                 __runOriginal = false;
             }
             catch (Exception e) {

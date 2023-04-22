@@ -9,18 +9,17 @@ namespace DropCostsEnhanced.Patches
 
         static void Postfix(AAR_ContractObjectivesWidget __instance) {
             try {
-                Traverse addObjective = Traverse.Create(__instance).Method("AddObjective", new Type[] {typeof(MissionObjectiveResult)});
                 if (DCECore.settings.enableDropCosts)
                 {
-                    addObjective.GetValue(new object[] {DropCostManager.Instance.GetObjectiveResult()});
+                    __instance.AddObjective(DropCostManager.Instance.GetObjectiveResult());
                 }
                 if (DCECore.settings.enableAmmoCosts)
                 {
-                    addObjective.GetValue(new object[] {AmmoCostManager.Instance.GetObjectiveResult()});
+                    __instance.AddObjective(AmmoCostManager.Instance.GetObjectiveResult());
                 }
                 if (DCECore.settings.enableHeatCosts)
                 {
-                    addObjective.GetValue(new object[] {HeatCostManager.Instance.GetObjectiveResult()});
+                    __instance.AddObjective(HeatCostManager.Instance.GetObjectiveResult());
                 }
             }
             catch (Exception e) {

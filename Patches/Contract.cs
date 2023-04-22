@@ -61,7 +61,7 @@ namespace DropCostsEnhanced.Patches
                 DCECore.modLog.Info?.Write($"Total Drop Cost: {TotalCost}");
 
                 int newResult = Mathf.FloorToInt(__instance.MoneyResults - TotalCost);
-                Traverse.Create(__instance).Property("MoneyResults").SetValue(newResult);
+                __instance.MoneyResults = newResult;
 
 
 

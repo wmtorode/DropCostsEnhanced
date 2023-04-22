@@ -21,14 +21,17 @@ namespace DropCostsEnhanced.Patches
             {
                 return;
             }
-            
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure) {
-                foreach (StarSystem system in simGame.StarSystems) {
-                    AccessTools.Field(typeof(StarSystemDef), "DefaultDifficulty").SetValue(system.Def, 0);
-                    AccessTools.Field(typeof(StarSystemDef), "DifficultyList").SetValue(system.Def, new List<int>());
-                    AccessTools.Field(typeof(StarSystemDef), "DifficultyModes").SetValue(system.Def, new List<SimGameState.SimGameType>());
+                foreach (StarSystem system in simGame.StarSystems)
+                {
+                    system.Def.DefaultDifficulty = 0;
+                    system.Def.DifficultyList = new List<int>();
+                    system.Def.DifficultyModes = new List<SimGameState.SimGameType>();
                 }
             }
+            watch.Stop();
+            DCECore.modLog.Debug?.Write($"StarMap Update Prefix took: {watch.ElapsedMilliseconds} ms.");
         }
 
         static void Postfix(Starmap __instance, SimGameState simGame) {
@@ -45,10 +48,10 @@ namespace DropCostsEnhanced.Patches
                         }
                     }
                     else {
-                        AccessTools.Field(typeof(StarSystemDef), "DefaultDifficulty").SetValue(system.Def, 1);
+                        system.Def.DefaultDifficulty = 1;
                     }
-                    AccessTools.Field(typeof(StarSystemDef), "DifficultyList").SetValue(system.Def, new List<int>());
-                    AccessTools.Field(typeof(StarSystemDef), "DifficultyModes").SetValue(system.Def, new List<SimGameState.SimGameType>());
+                    system.Def.DifficultyList = new List<int>();
+                    system.Def.DifficultyModes = new List<SimGameState.SimGameType>();
                 }
             }
         }
@@ -79,7 +82,7 @@ namespace DropCostsEnhanced.Patches
                     repModifier = Mathf.CeilToInt(repOfOwner / 20f);
                 }
                 int endDifficulty = Mathf.Clamp(baseDifficulty + rangeDifficulty - repModifier, 1, DCECore.settings.maxDifficulty);
-                AccessTools.Field(typeof(StarSystemDef), "DefaultDifficulty").SetValue(starSystemNode.System.Def, endDifficulty);
+                starSystemNode.System.Def.DefaultDifficulty = endDifficulty;
             }catch(Exception e) {
                 DCECore.modLog.Error?.Write(e);
             }
