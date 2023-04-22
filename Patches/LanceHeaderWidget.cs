@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BattleTech;
-using Harmony;
-using DropCostsEnhanced;
-using UnityEngine;
 using BattleTech.UI;
 using BattleTech.UI.TMProWrapper;
 using DropCostsEnhanced.Data;

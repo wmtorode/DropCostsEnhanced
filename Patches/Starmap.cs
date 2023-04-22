@@ -1,11 +1,7 @@
 ﻿using BattleTech;
-using BattleTech.UI;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using HBS;
 
@@ -19,7 +15,13 @@ namespace DropCostsEnhanced.Patches
             return DCECore.settings.diffMode != EDifficultyType.NotActive;
         }
 
-        static void Prefix(Starmap __instance, SimGameState simGame) {
+        static void Prefix(ref bool __runOriginal, Starmap __instance, SimGameState simGame) {
+            
+            if (!__runOriginal)
+            {
+                return;
+            }
+            
             if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure) {
                 foreach (StarSystem system in simGame.StarSystems) {
                     AccessTools.Field(typeof(StarSystemDef), "DefaultDifficulty").SetValue(system.Def, 0);

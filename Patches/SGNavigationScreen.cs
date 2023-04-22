@@ -1,9 +1,5 @@
-﻿using BattleTech;
-using BattleTech.UI;
-using Harmony;
-using DropCostsEnhanced;
+﻿using BattleTech.UI;
 using DropCostsEnhanced.Data;
-using UnityEngine;
 
 
 namespace DropCostsEnhanced.Patches
@@ -16,8 +12,13 @@ namespace DropCostsEnhanced.Patches
             return DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure;
         }
 
-        static void Prefix(SGNavigationScreen __instance, ref int index)
+        static void Prefix(ref bool __runOriginal, SGNavigationScreen __instance, ref int index)
         {
+            if (!__runOriginal)
+            {
+                return;
+            }
+            
             index = -1;
         }
 

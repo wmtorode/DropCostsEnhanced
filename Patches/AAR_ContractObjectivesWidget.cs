@@ -1,7 +1,5 @@
-﻿using Harmony;
-using BattleTech;
+﻿using BattleTech;
 using BattleTech.UI;
-using BattleTech.Framework;
 using System;
 
 namespace DropCostsEnhanced.Patches

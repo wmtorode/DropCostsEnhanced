@@ -1,13 +1,9 @@
 ﻿using System;
-using BattleTech;
 using BattleTech.UI;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
 using UnityEngine;
 using SVGImporter;
 using System.Collections.Generic;
-using System.Net.Mime;
 using UnityEngine.UI;
 
 
@@ -21,8 +17,14 @@ namespace DropCostsEnhanced.Patches
             return DCECore.settings.diffMode != EDifficultyType.NotActive;
         }
 
-        static bool Prefix(SGDifficultyIndicatorWidget __instance, List<UIColorRefTracker> ___pips, UIColor ___activeColor, ref int difficulty)
+        static void Prefix(ref bool __runOriginal, SGDifficultyIndicatorWidget __instance, List<UIColorRefTracker> ___pips, UIColor ___activeColor, ref int difficulty)
         {
+            
+            if (!__runOriginal)
+            {
+                return;
+            }
+            
             Traverse difficultySetter = Traverse.Create(__instance).Property("Difficulty");
             difficultySetter.SetValue(difficulty);
             __instance.Reset();
@@ -80,8 +82,12 @@ namespace DropCostsEnhanced.Patches
                     pip.SetUIColor(___activeColor);
                 }
             }
-            if ((double) index >= (double) f)
-                return false;
+
+            if ((double)index >= (double)f)
+            {
+                __runOriginal = false;
+                return;
+            }
             UIColorRefTracker pip1 = ___pips[index];
             SVGImage component = pip1.GetComponent<SVGImage>();
             if (customAsset)
@@ -99,7 +105,7 @@ namespace DropCostsEnhanced.Patches
                 pip1.SetUIColor(___activeColor);
             }
             component.fillAmount = f - (float) index;
-            return false;
+            __runOriginal = false;
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using BattleTech;
 using BattleTech.UI;
 using BattleTech.Save;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using BattleTech.Data;
 using SVGImporter;
 using UnityEngine;
@@ -65,14 +61,20 @@ namespace DropCostsEnhanced.Patches
         {
             return DCECore.settings.diffMode != EDifficultyType.NotActive;
         }
-        static bool Prefix(SimGameState __instance, SimGameInterruptManager ___interruptQueue) {
+        static void Prefix(ref bool __runOriginal, SimGameState __instance, SimGameInterruptManager ___interruptQueue) {
+            
+            if (!__runOriginal)
+            {
+                return;
+            }
+            
             try {
                 ___interruptQueue.QueuePauseNotification("Difficult Mission", "Careful, Commander. This drop looks like it might require more firepower than that.", __instance.GetCrewPortrait(SimGameCrew.Crew_Darius), string.Empty, new Action(__instance.RoomManager.CmdCenterRoom.lanceConfigBG.LC.ContinueConfirmClicked), "CONFIRM", null, "BACK");
-                return false;
+                __runOriginal = false;
             }
             catch (Exception e) {
                 DCECore.modLog.Error?.Write(e);
-                return true;
+                __runOriginal = true;
             }
         }
     }

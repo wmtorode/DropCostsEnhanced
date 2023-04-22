@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using BattleTech;
 using BattleTech.Framework;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
-using UnityEngine;
 
 namespace DropCostsEnhanced.Patches
 {

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Harmony;
 using System.Reflection;
 using IRBTModUtils.Logging;
 using System.IO;
@@ -60,8 +55,7 @@ namespace DropCostsEnhanced
                 modLog.Error?.Write(e);
             }
 
-            var harmony = HarmonyInstance.Create("ca.jwolf.DropCostsEnhanced");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "ca.jwolf.DropCostsEnhanced");
 
         }
     }

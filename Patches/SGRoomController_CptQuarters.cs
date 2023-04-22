@@ -1,12 +1,7 @@
 ﻿using BattleTech;
 using BattleTech.UI;
-using BattleTech.Save;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using HBS;
 using UnityEngine.Events;
@@ -26,7 +21,13 @@ namespace DropCostsEnhanced.Patches
             DifficultyManager.Instance.setChooseYourOwnAdventureDifficulty(difficulty);
         }
         
-        static bool Prefix(SGRoomController_CptQuarters __instance, SimGameState.SimGameCharacterType characterClicked) {
+        static void Prefix(ref bool __runOriginal, SGRoomController_CptQuarters __instance, SimGameState.SimGameCharacterType characterClicked) {
+            
+            if (!__runOriginal)
+            {
+                return;
+            }
+            
             try
             {
                 if (characterClicked == SimGameState.SimGameCharacterType.BREAKDOWN)
@@ -36,7 +37,8 @@ namespace DropCostsEnhanced.Patches
                     {
                         LazySingletonBehavior<UIManager>.Instance.GetOrCreatePopupModule<SG_Stores_MultiPurchasePopup>()
                             .SetData(__instance.simState, null, "Difficulty", DCECore.settings.maxDifficulty, 0, new UnityAction<int>(onSet));
-                        return false;
+                        __runOriginal = false;
+                        return;
                     }
                 }
             }
@@ -44,7 +46,8 @@ namespace DropCostsEnhanced.Patches
             {
                 DCECore.modLog.Error?.Write(e);
             }
-            return true;
+
+            __runOriginal = true;
         }
     }
 }

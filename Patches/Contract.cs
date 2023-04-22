@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using BattleTech;
-using Harmony;
-using DropCostsEnhanced;
 using DropCostsEnhanced.Data;
 using UnityEngine;
 
