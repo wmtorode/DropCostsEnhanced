@@ -9,13 +9,20 @@
       $(ReferencePath);
       {HintPathFromItem};
     </AssemblySearchPaths>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
     <LangVersion>11</LangVersion>
+    <Configurations>Debug;Release;Release_NoCAC</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineConstants>TRACE;USE_CAC</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release_NoCAC' ">
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup>
@@ -34,6 +41,8 @@
     <Reference Include="Assembly-CSharp">
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    </Reference>
+    <Reference Include="CustomAmmoCategories">
     </Reference>
     <Reference Include="CustomComponents">
     </Reference>
