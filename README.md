@@ -3,15 +3,24 @@ A Mod for HBS's BattleTech PC Game that adds costs for dropping mechs and ammo c
 
 This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDifficultyByCompany`
 
-## Dependancies
+## Dependencies
 
 - Custom Components : https://github.com/BattletechModders/CustomComponents
 - IRBTModUtils: https://github.com/BattletechModders/IRBTModUtils
+
+## Optional Dependencies 
+
+- Custom Ammo Categories : https://github.com/BattletechModders/CustomAmmoCategories
+
+CAC support must be enabled or disabled at build time. if CAC support is disabled and CAC is used alongside this mod, Internal ammo costs for weapons with internal ammo, will not be calculated correctly
 
 ## Conflicts
 
 - DropCostPerMech: https://github.com/Morphyum/DropCostPerMech
 
+## Modtek Supported Versions:
+
+DCE requires Modtek 3.0 or newer due to its use of HarmonyX
 
 ## Settings
 
