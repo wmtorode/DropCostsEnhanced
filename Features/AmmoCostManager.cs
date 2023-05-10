@@ -35,7 +35,10 @@ namespace DropCostsEnhanced
                 return costFactor.PerUnitCost;
             }
 
-            return (weapon.weaponDef.Description.Cost)/ weapon.weaponDef.StartingAmmoCapacity;
+            var capacity = GetInternalAmmoStartCapacity(weapon);
+            if (capacity == 0) return 0;
+
+            return (float)weapon.weaponDef.Description.Cost / capacity;
         }
         
         private float getMunitionCost(AmmunitionBox ammunitionBox)
@@ -45,7 +48,7 @@ namespace DropCostsEnhanced
                 return costFactor.PerUnitCost;
             }
 
-            return (ammunitionBox.ammunitionBoxDef.Description.Cost)/ ammunitionBox.AmmoCapacity;
+            return (float)ammunitionBox.ammunitionBoxDef.Description.Cost/ ammunitionBox.AmmoCapacity;
 
         }
         
@@ -60,7 +63,7 @@ namespace DropCostsEnhanced
         private bool WeaponHasInternalAmmo(Weapon weapon)
         {
             #if USE_CAC
-            return weapon.exDef().InternalAmmo.Count > 0;
+            return GetInternalAmmoStartCapacity(weapon) > 0;
             #endif
             return weapon.weaponDef.StartingAmmoCapacity > 0;
         }
