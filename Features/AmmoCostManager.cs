@@ -68,6 +68,11 @@ namespace DropCostsEnhanced
         private int GetInternalAmmoStartCapacity(Weapon weapon)
         {
             #if USE_CAC
+            if (weapon.exDef().InternalAmmo.Count == 0)
+            {
+                return 0;
+            }
+            
             if (weapon.exDef().InternalAmmo.Count == 1)
             {
                 return weapon.exDef().InternalAmmo.First().Value;
