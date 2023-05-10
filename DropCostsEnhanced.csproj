@@ -9,7 +9,7 @@
       $(ReferencePath);
       {HintPathFromItem};
     </AssemblySearchPaths>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
     <LangVersion>11</LangVersion>
     <Configurations>Debug;Release;Release_NoCAC</Configurations>
     <Platforms>AnyCPU</Platforms>

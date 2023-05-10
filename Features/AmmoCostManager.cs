@@ -62,10 +62,7 @@ namespace DropCostsEnhanced
 
         private bool WeaponHasInternalAmmo(Weapon weapon)
         {
-            #if USE_CAC
             return GetInternalAmmoStartCapacity(weapon) > 0;
-            #endif
-            return weapon.weaponDef.StartingAmmoCapacity > 0;
         }
 
         private int GetInternalAmmoStartCapacity(Weapon weapon)
