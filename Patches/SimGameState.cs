@@ -144,7 +144,48 @@ namespace DropCostsEnhanced.Patches
             
             static void Postfix(SimGameState __instance, ref int __result) {
                 if (DCECore.settings.diffMode == EDifficultyType.Company || DCECore.settings.diffMode == EDifficultyType.LegacyCompany || DCECore.settings.diffMode == EDifficultyType.ChooseYourAdventure) {
-                    __result = Mathf.RoundToInt(Mathf.Clamp(__instance.GlobalDifficulty, 0, DCECore.settings.maxDifficulty));
+                    __result = Mathf.RoundToInt(Mathf.Clamp(__instance.GlobalDifficulty, 1, DCECore.settings.maxDifficulty));
+                }
+            }
+        }
+        
+        [HarmonyPatch(typeof(SimGameState), "OnTargetSystemFound")]
+        public static class SimGameState_OnTargetSystemFound_Patch
+        {
+            public static bool Prepare()
+            {
+                return DCECore.settings.diffMode != EDifficultyType.NotActive;
+            }
+            static void Postfix(SimGameState __instance)
+            {
+                try
+                {
+                    int systemDifficulty = __instance.GetNormalizedDifficulty(__instance.CurSystem.Def);
+                    DifficultyManager.Instance.setCurrentDifficultyStat(systemDifficulty);
+
+                }
+                catch (Exception e)
+                {
+                    DCECore.modLog.Error?.Write(e);
+                }
+                
+            }
+        }
+        
+        [HarmonyPatch(typeof(SimGameState), "DeductQuarterlyFunds")]
+        class SimGameState_DeductQuarterlyFunds_Patch
+        {
+            public static void Postfix(SimGameState __instance)
+            {
+                try
+                {
+                    int systemDifficulty = __instance.GetNormalizedDifficulty(__instance.CurSystem.Def);
+                    DifficultyManager.Instance.setCurrentDifficultyStat(systemDifficulty);
+
+                }
+                catch (Exception e)
+                {
+                    DCECore.modLog.Error?.Write(e);
                 }
             }
         }

@@ -17,6 +17,7 @@ namespace DropCostsEnhanced
         private const string DropCostStatPrefix = "DCE-Drop_";
         private const string DropCostIdxStat = "DCE-IDX";
         public const string SettableDifficultyStat = "DCE-FixedDifficulty";
+        private const string CurrentDifficultyStat = "DCE-CurrentDifficulty";
         
         public static DifficultyManager Instance
         {
@@ -71,6 +72,10 @@ namespace DropCostsEnhanced
             {
                 companyStats.AddStatistic<int>(SettableDifficultyStat, 1);
             }
+            if (!companyStats.ContainsStatistic(CurrentDifficultyStat))
+            {
+                companyStats.AddStatistic<int>(CurrentDifficultyStat, 1);
+            }
             
         }
 
@@ -102,6 +107,11 @@ namespace DropCostsEnhanced
         public void setChooseYourOwnAdventureDifficulty(int difficulty)
         {
             companyStats.Set(SettableDifficultyStat, difficulty);
+        }
+        
+        public void setCurrentDifficultyStat(int difficulty)
+        {
+            companyStats.Set(CurrentDifficultyStat, difficulty);
         }
 
         public float getChooseYourOwnAdventureDifficulty()
