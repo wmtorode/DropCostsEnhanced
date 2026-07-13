@@ -7,6 +7,7 @@ This was inspired by the original drop cost mod: `DropCostPerMech` and `GlobalDi
 
 - Custom Components : https://github.com/BattletechModders/CustomComponents
 - IRBTModUtils: https://github.com/BattletechModders/IRBTModUtils
+- JwTweaks: https://github.com/wmtorode/JwTweaks
 
 ## Optional Dependencies 
 

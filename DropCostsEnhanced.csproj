@@ -46,6 +46,8 @@
     </Reference>
     <Reference Include="CustomComponents">
     </Reference>
+    <Reference Include="JwTweaks">
+    </Reference>
     <Reference Include="IRBTModUtils, Version=1.10.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>

@@ -37,7 +37,7 @@ namespace DropCostsEnhanced.Patches
     {
         public static void Postfix(SimGameState __instance)
         {
-            DifficultyManager.Instance.setCompanyStats(__instance);
+            DifficultyManager.Instance.setCompanyStats(__instance, true);
             if (DCECore.settings.useDiffRungs)
             {
                 DataManager dm = UnityGameInstance.BattleTechGame.DataManager;

@@ -6,6 +6,9 @@ using System.Linq;
 using BattleTech.Data;
 using SVGImporter;
 using UnityEngine;
+using JwTweaks;
+using JwTweaks.Data;
+using JwTweaks.Features;
 
 namespace DropCostsEnhanced
 {
@@ -18,6 +21,9 @@ namespace DropCostsEnhanced
         private const string DropCostIdxStat = "DCE-IDX";
         public const string SettableDifficultyStat = "DCE-FixedDifficulty";
         private const string CurrentDifficultyStat = "DCE-CurrentDifficulty";
+        private const string DceSaveBlockName = "DCE-SaveBlock";
+        
+        private DceSaveBlock saveBlock = new DceSaveBlock();
         
         public static DifficultyManager Instance
         {
@@ -30,7 +36,9 @@ namespace DropCostsEnhanced
         
         public void Initialize()
         {
-            return;
+            var block = new JsonSaveBlock<DceSaveBlock>();
+            block.Data = saveBlock;
+            SaveSerializationManager.RegisterCustomSaveBlock(block, DceSaveBlockName);
         }
 
         public int legacyCountedMechs
@@ -51,27 +59,58 @@ namespace DropCostsEnhanced
             private set;
         }
         
-        public void setCompanyStats(SimGameState simGame)
+        public void setCompanyStats(SimGameState simGame, bool newGame = false)
         {
-            companyStats = simGame.CompanyStats;
-            int legacyCost = getLegacyCompanyCosts(simGame);
-            for (int i = 0; i < DCECore.settings.averagedDrops; i++)
+            if (newGame)
             {
-                string statName = $"{DropCostStatPrefix}{i}";
-                if (!companyStats.ContainsStatistic(statName))
+                saveBlock.ClearForNewGame();
+            }
+
+            int legacyCost = getLegacyCompanyCosts(simGame);
+            // resize the list to the new number of drops to be averaged
+            if (DCECore.settings.averagedDrops > saveBlock.previousDropCosts.Count)
+            {
+                var slotsToAdd = DCECore.settings.averagedDrops - saveBlock.previousDropCosts.Count;
+                for (int i = 0; i < slotsToAdd; i++)
                 {
-                    DCECore.modLog.Info?.Write($"Initing Stat: {statName}, Value: {legacyCost}");
-                    companyStats.AddStatistic<int>(statName, legacyCost);
+                    DCECore.modLog.Info?.Write($"Initing Stat: {saveBlock.previousDropCosts.Count}, Value: {legacyCost}");
+                    saveBlock.previousDropCosts.Add(legacyCost);
                 }
             }
-            if (!companyStats.ContainsStatistic(DropCostIdxStat))
+
+            
+            companyStats = simGame.CompanyStats;
+            if (!saveBlock.initialized)
             {
-                companyStats.AddStatistic<int>(DropCostIdxStat, 0);
+                DCECore.modLog.Info?.Write("Initializing SaveBlock, attempt to migrate old data");
+                for (int i = 0; i < DCECore.settings.averagedDrops; i++)
+                {
+                    string statName = $"{DropCostStatPrefix}{i}";
+                    if (companyStats.ContainsStatistic(statName))
+                    {
+                        var value = companyStats.GetValue<int>(statName);
+                        DCECore.modLog.Info?.Write($"migrating Stat: {i}, Value: {value} to new format");
+                        saveBlock.previousDropCosts[i] = value;
+                    }
+                }
+
+                if (companyStats.ContainsStatistic(DropCostIdxStat))
+                {
+                    var value = companyStats.GetValue<int>(DropCostIdxStat);
+                    DCECore.modLog.Info?.Write($"migrating Index: {DropCostIdxStat}, Value: {value} to new format");
+                    saveBlock.currentIndex = value;
+                }
+
+                if (companyStats.ContainsStatistic(SettableDifficultyStat))
+                {
+                    var value = companyStats.GetValue<int>(SettableDifficultyStat);
+                    DCECore.modLog.Info?.Write(
+                        $"migrating CYA: {SettableDifficultyStat}, Value: {value} to new format");
+                    saveBlock.fixedDifficulty = value;
+                }
+                saveBlock.initialized = true;
             }
-            if (!companyStats.ContainsStatistic(SettableDifficultyStat))
-            {
-                companyStats.AddStatistic<int>(SettableDifficultyStat, 1);
-            }
+
             if (!companyStats.ContainsStatistic(CurrentDifficultyStat))
             {
                 companyStats.AddStatistic<int>(CurrentDifficultyStat, 1);
@@ -89,11 +128,7 @@ namespace DropCostsEnhanced
             long totalCost = 0;
             for (int i = 0; i < DCECore.settings.averagedDrops; i++)
             {
-                string statName = $"{DropCostStatPrefix}{i}";
-                if (companyStats.ContainsStatistic(statName))
-                {
-                    totalCost += companyStats.GetValue<int>(statName);
-                }
+                totalCost += saveBlock.previousDropCosts[i];
             }
             
             DCECore.modLog.Debug?.Write($"TotalCost before averaging: {totalCost}");
@@ -106,7 +141,7 @@ namespace DropCostsEnhanced
 
         public void setChooseYourOwnAdventureDifficulty(int difficulty)
         {
-            companyStats.Set(SettableDifficultyStat, difficulty);
+            saveBlock.fixedDifficulty = difficulty;
         }
         
         public void setCurrentDifficultyStat(int difficulty)
@@ -116,8 +151,7 @@ namespace DropCostsEnhanced
 
         public float getChooseYourOwnAdventureDifficulty()
         {
-            float difficulty = companyStats.GetValue<int>(SettableDifficultyStat);
-            return difficulty;
+            return saveBlock.fixedDifficulty;
         }
         
         public float getCompanyDifficulty()
@@ -128,17 +162,13 @@ namespace DropCostsEnhanced
 
         public void updateDropAverage(int cost)
         {
-            int idx = companyStats.GetValue<int>(DropCostIdxStat);
-            string statName = $"{DropCostStatPrefix}{idx}";
-            if (companyStats.ContainsStatistic(statName))
-            {
-                companyStats.Set<int>(statName, cost);
-            }
-
+            var currentIdx = saveBlock.currentIndex;
+            saveBlock.previousDropCosts[saveBlock.currentIndex] = cost;
+            int idx = saveBlock.currentIndex;
             idx += 1;
             idx %= DCECore.settings.averagedDrops;
-            companyStats.Set<int>(DropCostIdxStat, idx);
-            DCECore.modLog.Info?.Write($"Updating drop stat: {statName} to value: {cost}, new Idx: {idx}");
+            saveBlock.currentIndex = idx;
+            DCECore.modLog.Info?.Write($"Updating drop stat: {currentIdx} to value: {cost}, new Idx: {idx}");
         }
 
         public int getLegacyCompanyCosts(SimGameState sim)
