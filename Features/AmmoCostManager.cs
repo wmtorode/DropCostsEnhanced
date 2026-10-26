@@ -18,7 +18,11 @@ namespace DropCostsEnhanced
         private static readonly string InternalAmmoNameCAC = "InternalAmmo_";
 
         private static readonly string ShotsFiredStat = "DCE_AmmolessShotsFired";
-        
+
+        #if USE_CAC
+        private static readonly HashSet<string> internalAmmoChecked = new HashSet<string>();
+        #endif
+
         private static AmmoCostManager _instance;
 
         public static AmmoCostManager Instance
@@ -126,6 +130,25 @@ namespace DropCostsEnhanced
             int componentCost = 0;
             if (WeaponHasInternalAmmo(weapon))
             {
+                #if USE_CAC
+                bool hasPerAmmoCost = weapon.weaponDef.Is<AmmoCost>(out AmmoCost ammoCost) && ammoCost.InternalPerAmmoCost != null;
+                if (internalAmmoChecked.Add(weapon.defId))
+                {
+                    if (hasPerAmmoCost)
+                    {
+                        ammoCost.CheckInternalAmmo(weapon.exDef().InternalAmmo.Keys);
+                    }
+                    else if (weapon.exDef().InternalAmmo.Count > 1)
+                    {
+                        DCECore.modLog.Warn?.Write($"Weapon: {weapon.defId} has multiple internal ammo types but no InternalPerAmmoCost, should be converted to InternalPerAmmoCost");
+                    }
+                }
+
+                if (hasPerAmmoCost)
+                {
+                    return GetPerAmmoTypeCosts(weapon, ammoCost);
+                }
+                #endif
                 var costPerUnit = getInternalMunitionCost(weapon);
                 var startingCapacity = GetInternalAmmoStartCapacity(weapon);
                 var currentAmmo = GetRemainingInternalAmmoCount(weapon);
@@ -142,6 +165,33 @@ namespace DropCostsEnhanced
 
             return componentCost;
         }
+
+        // Special handling of CAC feature of multiple internal ammo types supporting individual costs, only called if USE_CAC is set
+        #if USE_CAC
+        private int GetPerAmmoTypeCosts(Weapon weapon, AmmoCost ammoCost)
+        {
+            Dictionary<string, int> internalAmmo = weapon.exDef().InternalAmmo;
+
+            float cost = 0f;
+            foreach (KeyValuePair<string, int> ammo in internalAmmo)
+            {
+                AmmoTypeCost typeCost = Array.Find(ammoCost.InternalPerAmmoCost, c => c.AmmoId == ammo.Key);
+                float costPerUnit = typeCost?.Cost ?? ammoCost.PerUnitCost;
+                int currentAmmo = weapon.StatCollection.GetStatistic(InternalAmmoNameCAC + ammo.Key)?.Value<int>() ?? ammo.Value;
+                if (currentAmmo < 0)
+                {
+                    DCECore.modLog.Warn?.Write($"Negative Ammo Detected! Resetting to 0.");
+                    currentAmmo = 0;
+                }
+                cost += (ammo.Value - currentAmmo) * costPerUnit;
+                DCECore.modLog.Info?.Write($"Weapon: {weapon.UIName}, internal ammo {ammo.Key}: {currentAmmo}/{ammo.Value}, cost per unit: {costPerUnit}");
+            }
+
+            int componentCost = Mathf.FloorToInt(cost);
+            DCECore.modLog.Info?.Write($"Weapon: {weapon.UIName}, internal ammo cost: {componentCost}");
+            return componentCost;
+        }
+        #endif
 
         private static bool WeaponFiresWithoutAmmo(Weapon weapon)
         {

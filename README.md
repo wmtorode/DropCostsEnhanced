@@ -202,6 +202,36 @@ example:
 
 if this custom block was added the sniper example above than the cost per shot of the sniper would drop from 8000 cbills to 325
 
+### Cost per internal ammo type
+
+A weapon with several internal ammo types (CAC `InternalAmmo` structure) can set a different price for each type with `InternalPerAmmoCost`,
+An array of entries with key `AmmoId` and value `Cost`, each type is charged for its own rounds used at end of battle. If a type is not in the array `PerUnitCost` is used as fallback.
+
+example:
+```json
+{
+  "Custom": {
+    "AmmoCost" : {
+      "InternalPerAmmoCost" : [
+        { "AmmoId" : "Ammunition_LRM_Internal", "Cost" : 25 },
+        { "AmmoId" : "Ammunition_SRM_Internal", "Cost" : 40 }
+      ]
+    }
+  }
+}
+```
+
+`InternalPerAmmoCost` is only used for internal ammo of weapons, weapons with ammo bins use `PerUnitCost` as per standard behaviour.
+
+`InternalPerAmmoCost` is checked when the def is loaded. It is ignored and logged when:
+- it is not on a weapon
+- it is empty
+- an entry has no `AmmoId`
+- a `Cost` is negative
+- an `AmmoId` is listed more than once
+
+A weapon with several internal ammo types but no `InternalPerAmmoCost` is charged as before from `PerUnitCost`, but with a warning (once per weapon id per game session) that it should be converted to `InternalPerAmmoCost`.
+
 ### Charging weapons that use no ammo
 
 Weapons that use no ammo (battle armor energy weapons, strike designators, etc.) are not charged by default. setting `CostPerShot` to `true` in a weapon's `AmmoCost` section charges `PerUnitCost` for every shot the weapon fires.
