@@ -200,7 +200,29 @@ example:
 }
 ```
 
-if this custom block was added the the sniper example above than the cost per shot of the sniper would drop from 8000 cbills to 325
+if this custom block was added the sniper example above than the cost per shot of the sniper would drop from 8000 cbills to 325
+
+### Charging weapons that use no ammo
+
+Weapons that use no ammo (battle armor energy weapons, strike designators, etc.) are not charged by default. setting `CostPerShot` to `true` in a weapon's `AmmoCost` section charges `PerUnitCost` for every shot the weapon fires.
+
+Every shot fired in a firing sequence counts as one charge, so a weapon firing 5 shots in one attack is charged 5 times. 
+Shots fired in a mode that uses ammo are not counted (those are charged through the ammo they used as usual). 
+The cost is added to the standard ammo costs at the cost section on the battle result screen.
+
+example:
+```json
+{
+  "Custom": {
+    "AmmoCost" : {
+      "PerUnitCost" : 500,
+      "CostPerShot" : true
+    }
+  }
+}
+```
+A weapon with this block that fired 12 shots during a battle adds 12 * 500 = 6000 c-bills to the ammo costs.
+
 
 ## Heat Costs
 

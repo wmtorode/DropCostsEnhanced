@@ -7,5 +7,6 @@ namespace DropCostsEnhanced.Data
     public class AmmoCost : SimpleCustomComponent
     {
         public float PerUnitCost = 1.0f;
+        public bool CostPerShot = false;
     }
 }

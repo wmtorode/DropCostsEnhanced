@@ -16,6 +16,8 @@ namespace DropCostsEnhanced
     {
         
         private static readonly string InternalAmmoNameCAC = "InternalAmmo_";
+
+        private static readonly string ShotsFiredStat = "DCE_AmmolessShotsFired";
         
         private static AmmoCostManager _instance;
 
@@ -140,6 +142,55 @@ namespace DropCostsEnhanced
 
             return componentCost;
         }
+
+        private static bool WeaponFiresWithoutAmmo(Weapon weapon)
+        {
+            // Have to handle the CAC dynamic way of handling ammo category
+            #if USE_CAC
+            return weapon.info().effectiveAmmoCategory.BaseCategory.Is_NotSet;
+            #endif
+            return weapon.AmmoCategoryValue.Is_NotSet;
+        }
+
+        public static void RecordShotsFired(Weapon weapon, int shots)
+        {
+            if (shots <= 0)
+            {
+                return;
+            }
+
+            if (!weapon.weaponDef.Is<AmmoCost>(out var costFactor) || !costFactor.CostPerShot)
+            {
+                return;
+            }
+
+            if (!WeaponFiresWithoutAmmo(weapon))
+            {
+                return;
+            }
+
+            if (!weapon.StatCollection.ContainsStatistic(ShotsFiredStat))
+            {
+                weapon.StatCollection.AddStatistic(ShotsFiredStat, 0);
+            }
+
+            Statistic shotsFired = weapon.StatCollection.GetStatistic(ShotsFiredStat);
+            shotsFired.SetValue(shotsFired.Value<int>() + shots);
+            DCECore.modLog.Debug?.Write($"Weapon: {weapon.UIName} fired {shots} shots, total shots now: {shotsFired.Value<int>()}");
+        }
+
+        private static int GetShotsFiredCosts(Weapon weapon)
+        {
+            if (!weapon.StatCollection.ContainsStatistic(ShotsFiredStat) || !weapon.weaponDef.Is<AmmoCost>(out var costFactor) || !costFactor.CostPerShot)
+            {
+                return 0;
+            }
+
+            int shotsFired = weapon.StatCollection.GetValue<int>(ShotsFiredStat);
+            int componentCost = Mathf.FloorToInt(shotsFired * costFactor.PerUnitCost);
+            DCECore.modLog.Info?.Write($"Weapon: {weapon.UIName} fired {shotsFired} shots without ammo for total cost of {componentCost}");
+            return componentCost;
+        }
         
 
         new public int CalculateFinalCosts(List<AbstractActor> actors)
@@ -161,6 +212,7 @@ namespace DropCostsEnhanced
                     foreach (Weapon weapon in weapons)
                     {
                         actorAmmoCost += GetInternalWeaponAmmoCosts(weapon);
+                        actorAmmoCost += GetShotsFiredCosts(weapon);
                     }
 
                     foreach (AmmunitionBox ammunitionBox in ammunitionBoxes)
